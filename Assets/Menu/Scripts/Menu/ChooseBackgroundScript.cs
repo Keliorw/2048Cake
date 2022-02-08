@@ -21,7 +21,7 @@ public class ChooseBackgroundScript : MonoBehaviour
     }
 
     public void ChooseBackground() {
-        save.background = backgrounds[backgroundScrolling.selectedPanID];
-        ChooseBackgroundBackground.sprite = backgrounds[backgroundScrolling.selectedPanID];
+        save.currentBackgroundSprite = backgrounds[backgroundScrolling.selectedBackgroundID];
+        ChooseBackgroundBackground.sprite = backgrounds[backgroundScrolling.selectedBackgroundID];
     }
 }

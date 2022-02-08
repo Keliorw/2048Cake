@@ -9,20 +9,20 @@ public class BackgroundScrolling : MonoBehaviour
 
     [Range(1, 50)]
     [Header("Controllers")]
-    public int panCount;
+    public int backgroundCount;
 
     [Range(0f, 20f)]
     public float snapSpeed;
     [Header("Other Objects")]
-    public GameObject panPrefab;
+    public GameObject backgroundPrefab;
 
     private GameObject[] instPans;
-    private Vector2[] pansPos;
+    private Vector2[] backgroundPrefabPos;
 
     private RectTransform contectRect;
     private Vector2 contectVector;
     
-    public int selectedPanID;
+    public int selectedBackgroundID;
     private bool isScrolling;
 
     public GameObject[] levelID;
@@ -35,38 +35,38 @@ public class BackgroundScrolling : MonoBehaviour
     private void Start() {
         chooseBackgroundScript = ChooseBackgroundScript.instance;
         contectRect = GetComponent<RectTransform>();
-        instPans = new GameObject[panCount];
-        pansPos = new Vector2[panCount];
-        for (int i = 0; i < panCount; i++) {
-            instPans[i] = Instantiate(panPrefab, transform, false);
+        instPans = new GameObject[backgroundCount];
+        backgroundPrefabPos = new Vector2[backgroundCount];
+        for (int i = 0; i < backgroundCount; i++) {
+            instPans[i] = Instantiate(backgroundPrefab, transform, false);
             instPans[i].GetComponent<Image>().sprite = chooseBackgroundScript.backgrounds[i];
             if (i == 0) continue;
-            instPans[i].transform.localPosition = new Vector2(instPans[i-1].transform.localPosition.x + panPrefab.GetComponent<RectTransform>().sizeDelta.x, instPans[i].transform.localPosition.y);
-            pansPos[i] = -instPans[i].transform.localPosition;
+            instPans[i].transform.localPosition = new Vector2(instPans[i-1].transform.localPosition.x + backgroundPrefab.GetComponent<RectTransform>().sizeDelta.x, instPans[i].transform.localPosition.y);
+            backgroundPrefabPos[i] = -instPans[i].transform.localPosition;
         }
-        for (int i = 0; i < panCount; i++) {
+        for (int i = 0; i < backgroundCount; i++) {
             
         }
     }
 
     private void FixedUpdate() {
         float nearestPos = float.MaxValue;
-        for (int i = 0; i < panCount; i++) {
-            float distance = Mathf.Abs(contectRect.anchoredPosition.x - pansPos[i].x);
+        for (int i = 0; i < backgroundCount; i++) {
+            float distance = Mathf.Abs(contectRect.anchoredPosition.x - backgroundPrefabPos[i].x);
             if (distance < nearestPos) {
                 nearestPos = distance;
-                selectedPanID = i;
+                selectedBackgroundID = i;
             }
         }
         if (isScrolling) return;
-        contectVector.x = Mathf.SmoothStep(contectRect.anchoredPosition.x, pansPos[selectedPanID].x, snapSpeed * Time.fixedDeltaTime);
+        contectVector.x = Mathf.SmoothStep(contectRect.anchoredPosition.x, backgroundPrefabPos[selectedBackgroundID].x, snapSpeed * Time.fixedDeltaTime);
         contectRect.anchoredPosition = contectVector;
         
         //TODO: генерировать префабы levelID в количестве уровней
-        for (int i = 0; i < panCount; i++) {
+        for (int i = 0; i < backgroundCount; i++) {
             levelID[i].GetComponent<Image>().color = Color.white;
         }
-        levelID[selectedPanID].GetComponent<Image>().color = Color.red;
+        levelID[selectedBackgroundID].GetComponent<Image>().color = Color.red;
     }
 
     public void Scrolling(bool scroll) {

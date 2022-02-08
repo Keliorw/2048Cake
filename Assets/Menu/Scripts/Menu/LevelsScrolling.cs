@@ -6,54 +6,54 @@ public class LevelsScrolling : MonoBehaviour
 {
     [Range(1, 50)]
     [Header("Controllers")]
-    public int panCount;
+    public int levelCount;
 
     [Range(0f, 20f)]
     public float snapSpeed;
     [Header("Other Objects")]
-    public GameObject panPrefab;
+    public GameObject levelPrefab;
 
-    private GameObject[] instPans;
-    private Vector2[] pansPos;
+    private GameObject[] levelArray;
+    private Vector2[] levelPrefabPos;
 
     private RectTransform contectRect;
     private Vector2 contectVector;
     
-    private int selectedPanID;
+    private int selectedLevelID;
     private bool isScrolling;
 
     public GameObject[] levelID;
 
     private void Start() {
         contectRect = GetComponent<RectTransform>();
-        instPans = new GameObject[panCount];
-        pansPos = new Vector2[panCount];
-        for (int i = 0; i < panCount; i++) {
-            instPans[i] = Instantiate(panPrefab, transform, false);
+        levelArray = new GameObject[levelCount];
+        levelPrefabPos = new Vector2[levelCount];
+        for (int i = 0; i < levelCount; i++) {
+            levelArray[i] = Instantiate(levelPrefab, transform, false);
             if (i == 0) continue;
-            instPans[i].transform.localPosition = new Vector2(instPans[i-1].transform.localPosition.x + panPrefab.GetComponent<RectTransform>().sizeDelta.x, instPans[i].transform.localPosition.y);
-            pansPos[i] = -instPans[i].transform.localPosition;
+            levelArray[i].transform.localPosition = new Vector2(levelArray[i-1].transform.localPosition.x + levelPrefab.GetComponent<RectTransform>().sizeDelta.x, levelArray[i].transform.localPosition.y);
+            levelPrefabPos[i] = -levelArray[i].transform.localPosition;
         }
     }
 
     private void FixedUpdate() {
         float nearestPos = float.MaxValue;
-        for (int i = 0; i < panCount; i++) {
-            float distance = Mathf.Abs(contectRect.anchoredPosition.x - pansPos[i].x);
+        for (int i = 0; i < levelCount; i++) {
+            float distance = Mathf.Abs(contectRect.anchoredPosition.x - levelPrefabPos[i].x);
             if (distance < nearestPos) {
                 nearestPos = distance;
-                selectedPanID = i;
+                selectedLevelID = i;
             }
         }
         if (isScrolling) return;
-        contectVector.x = Mathf.SmoothStep(contectRect.anchoredPosition.x, pansPos[selectedPanID].x, snapSpeed * Time.fixedDeltaTime);
+        contectVector.x = Mathf.SmoothStep(contectRect.anchoredPosition.x, levelPrefabPos[selectedLevelID].x, snapSpeed * Time.fixedDeltaTime);
         contectRect.anchoredPosition = contectVector;
         
         //TODO: генерировать префабы levelID в количестве уровней
-        for (int i = 0; i < panCount; i++) {
+        for (int i = 0; i < levelCount; i++) {
             levelID[i].GetComponent<Image>().color = Color.white;
         }
-        levelID[selectedPanID].GetComponent<Image>().color = Color.red;
+        levelID[selectedLevelID].GetComponent<Image>().color = Color.red;
     }
 
     public void Scrolling(bool scroll) {
