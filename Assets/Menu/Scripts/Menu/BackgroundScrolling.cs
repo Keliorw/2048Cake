@@ -25,21 +25,21 @@ public class BackgroundScrolling : MonoBehaviour
     public int selectedBackgroundID;
     private bool isScrolling;
 
-    public GameObject[] levelID;
+    public GameObject[] backgroundID;
 
-    private ChooseBackgroundScript chooseBackgroundScript;
+    private Save save;
 
     private void Awake() {
         instance = this;
     }
     private void Start() {
-        chooseBackgroundScript = ChooseBackgroundScript.instance;
+        save = Save.instance;
         contectRect = GetComponent<RectTransform>();
         instPans = new GameObject[backgroundCount];
         backgroundPrefabPos = new Vector2[backgroundCount];
         for (int i = 0; i < backgroundCount; i++) {
             instPans[i] = Instantiate(backgroundPrefab, transform, false);
-            instPans[i].GetComponent<Image>().sprite = chooseBackgroundScript.backgrounds[i];
+            instPans[i].GetComponent<Image>().sprite = save.backgrounds[i];
             if (i == 0) continue;
             instPans[i].transform.localPosition = new Vector2(instPans[i-1].transform.localPosition.x + backgroundPrefab.GetComponent<RectTransform>().sizeDelta.x, instPans[i].transform.localPosition.y);
             backgroundPrefabPos[i] = -instPans[i].transform.localPosition;
@@ -64,9 +64,9 @@ public class BackgroundScrolling : MonoBehaviour
         
         //TODO: генерировать префабы levelID в количестве уровней
         for (int i = 0; i < backgroundCount; i++) {
-            levelID[i].GetComponent<Image>().color = Color.white;
+            backgroundID[i].GetComponent<Image>().color = Color.white;
         }
-        levelID[selectedBackgroundID].GetComponent<Image>().color = Color.red;
+        backgroundID[selectedBackgroundID].GetComponent<Image>().color = Color.red;
     }
 
     public void Scrolling(bool scroll) {

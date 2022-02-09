@@ -7,13 +7,13 @@ public class ButtonsScript : MonoBehaviour
 {
     public GameObject MenuPanel;
     public GameObject SettingsPanel;
-    public GameObject ChoosecurrentBackgroundSpritePanel;
+    public GameObject ChooseBackgroundPanel;
     public GameObject ShopPanel;
 
-    public Image MenucurrentBackgroundSprite;
-    public Image SettingscurrentBackgroundSprite;
-    public Image ChoosecurrentBackgroundSpritecurrentBackgroundSprite;
-    public Image ShopcurrentBackgroundSprite;
+    public Image MenuСurrentBackgroundSprite;
+    public Image SettingsСurrentBackgroundSprite;
+    public Image ChooseBackgroundСurrentSprite;
+    public Image ShopСurrentBackgroundSprite;
 
     private Save save;
     private void Start()
@@ -21,37 +21,37 @@ public class ButtonsScript : MonoBehaviour
         save = Save.instance;
         MenuPanel.SetActive(true);
         SettingsPanel.SetActive(false);
-        ChoosecurrentBackgroundSpritePanel.SetActive(false);
+        ChooseBackgroundPanel.SetActive(false);
         ShopPanel.SetActive(false);
-        MenucurrentBackgroundSprite.sprite = save.currentBackgroundSprite;
+        MenuСurrentBackgroundSprite.sprite = save.backgrounds[save.currentBackground];
     }
 
     public void SettingsPanelButton () {
         MenuPanel.SetActive(false);
         SettingsPanel.SetActive(true);
-        ChoosecurrentBackgroundSpritePanel.SetActive(false);
+        ChooseBackgroundPanel.SetActive(false);
         ShopPanel.SetActive(false);
-        SettingscurrentBackgroundSprite.sprite = save.currentBackgroundSprite;
+        SettingsСurrentBackgroundSprite.sprite = save.backgrounds[save.currentBackground];
     }
-    public void ChoosecurrentBackgroundSpritePanelButton () {
+    public void ChooseBackgroundPanelButton () {
         MenuPanel.SetActive(false);
         SettingsPanel.SetActive(false);
-        ChoosecurrentBackgroundSpritePanel.SetActive(true);
+        ChooseBackgroundPanel.SetActive(true);
         ShopPanel.SetActive(false);
-        ChoosecurrentBackgroundSpritecurrentBackgroundSprite.sprite = save.currentBackgroundSprite;
+        ChooseBackgroundСurrentSprite.sprite = save.backgrounds[save.currentBackground];
     }
     public void ShopPanelButton () {
         MenuPanel.SetActive(false);
         SettingsPanel.SetActive(false);
-        ChoosecurrentBackgroundSpritePanel.SetActive(false);
+        ChooseBackgroundPanel.SetActive(false);
         ShopPanel.SetActive(true);
-        ShopcurrentBackgroundSprite.sprite = save.currentBackgroundSprite;
+        ShopСurrentBackgroundSprite .sprite = save.backgrounds[save.currentBackground];
     }
     public void BackMenuPanelButton () {
         MenuPanel.SetActive(true);
         SettingsPanel.SetActive(false);
-        ChoosecurrentBackgroundSpritePanel.SetActive(false);
+        ChooseBackgroundPanel.SetActive(false);
         ShopPanel.SetActive(false);
-        MenucurrentBackgroundSprite.sprite = save.currentBackgroundSprite;
+        MenuСurrentBackgroundSprite.sprite = save.backgrounds[save.currentBackground];
     }
 }

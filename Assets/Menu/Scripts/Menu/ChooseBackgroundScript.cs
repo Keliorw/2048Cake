@@ -6,9 +6,7 @@ using UnityEngine.UI;
 public class ChooseBackgroundScript : MonoBehaviour
 {
     public static ChooseBackgroundScript instance;
-    public Image ChooseBackgroundBackground;
-    public Sprite[] backgrounds;
-
+    public Image ChooseBackgroundСurrentSprite;
     private BackgroundScrolling backgroundScrolling;
     private Save save;
     
@@ -21,7 +19,7 @@ public class ChooseBackgroundScript : MonoBehaviour
     }
 
     public void ChooseBackground() {
-        save.currentBackgroundSprite = backgrounds[backgroundScrolling.selectedBackgroundID];
-        ChooseBackgroundBackground.sprite = backgrounds[backgroundScrolling.selectedBackgroundID];
+        save.currentBackground = backgroundScrolling.selectedBackgroundID;
+        ChooseBackgroundСurrentSprite.sprite = save.backgrounds[save.currentBackground];
     }
 }

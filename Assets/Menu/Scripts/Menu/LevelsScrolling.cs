@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 public class LevelsScrolling : MonoBehaviour
 {
+    public static LevelsScrolling instance;
+
     [Range(1, 50)]
     [Header("Controllers")]
     public int levelCount;
@@ -19,11 +21,12 @@ public class LevelsScrolling : MonoBehaviour
     private RectTransform contectRect;
     private Vector2 contectVector;
     
-    private int selectedLevelID;
+    public int selectedLevelID;
     private bool isScrolling;
 
-    public GameObject[] levelID;
-
+    private void Awake() {
+        instance = this;
+    }
     private void Start() {
         contectRect = GetComponent<RectTransform>();
         levelArray = new GameObject[levelCount];
@@ -48,12 +51,6 @@ public class LevelsScrolling : MonoBehaviour
         if (isScrolling) return;
         contectVector.x = Mathf.SmoothStep(contectRect.anchoredPosition.x, levelPrefabPos[selectedLevelID].x, snapSpeed * Time.fixedDeltaTime);
         contectRect.anchoredPosition = contectVector;
-        
-        //TODO: генерировать префабы levelID в количестве уровней
-        for (int i = 0; i < levelCount; i++) {
-            levelID[i].GetComponent<Image>().color = Color.white;
-        }
-        levelID[selectedLevelID].GetComponent<Image>().color = Color.red;
     }
 
     public void Scrolling(bool scroll) {
