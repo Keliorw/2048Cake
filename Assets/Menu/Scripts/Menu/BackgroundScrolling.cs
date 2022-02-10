@@ -44,9 +44,6 @@ public class BackgroundScrolling : MonoBehaviour
             instPans[i].transform.localPosition = new Vector2(instPans[i-1].transform.localPosition.x + backgroundPrefab.GetComponent<RectTransform>().sizeDelta.x, instPans[i].transform.localPosition.y);
             backgroundPrefabPos[i] = -instPans[i].transform.localPosition;
         }
-        for (int i = 0; i < backgroundCount; i++) {
-            
-        }
     }
 
     private void FixedUpdate() {
