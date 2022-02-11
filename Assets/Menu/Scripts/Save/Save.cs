@@ -8,6 +8,8 @@ public class Save : MonoBehaviour
     public int levelsPassed;
     public int playerBackgrounds;
     public int currentBackground;
+    public float soundVolume;
+    public float musicVolume;
 
     public Sprite[] backgrounds;
      
@@ -21,14 +23,18 @@ public class Save : MonoBehaviour
          PlayerPrefs.SetInt("LevelsPassed", levelsPassed);
          PlayerPrefs.SetInt("PlayerBackgrounds", playerBackgrounds);
          PlayerPrefs.SetInt("CurrentBackground", currentBackground);
+         PlayerPrefs.SetFloat("SoundVolume", soundVolume);
+         PlayerPrefs.SetFloat("MusicVolume", musicVolume);
          PlayerPrefs.Save();
     }
 
     public void LoadGame() {
-        if (PlayerPrefs.HasKey("LevelsPassed") || PlayerPrefs.HasKey("PlayerBackgrounds") || PlayerPrefs.HasKey("CurrentBackground")) {
+        if (PlayerPrefs.HasKey("LevelsPassed") || PlayerPrefs.HasKey("PlayerBackgrounds") || PlayerPrefs.HasKey("CurrentBackground") || PlayerPrefs.HasKey("SoundVolume") || PlayerPrefs.HasKey("MusicVolume")) {
             levelsPassed = PlayerPrefs.GetInt("LevelsPassed");
             playerBackgrounds = PlayerPrefs.GetInt("PlayerBackgrounds");
             currentBackground = PlayerPrefs.GetInt("CurrentBackground");
+            soundVolume = PlayerPrefs.GetFloat("SoundVolume");
+            musicVolume = PlayerPrefs.GetFloat("MusicVolume");
         }
     }
 

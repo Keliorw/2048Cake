@@ -18,9 +18,12 @@ public class LevelsScrolling : MonoBehaviour
     private GameObject[] levelArray;
     private Vector2[] levelPrefabPos;
 
+    public Sprite[] levelsLocked;
+
+    public Sprite[] levelsUnlocked;
+
     private RectTransform contectRect;
-    private Vector2 contectVector;
-    
+    private Vector2 contectVector;    
     public int selectedLevelID;
     private bool isScrolling;
 
@@ -31,7 +34,11 @@ public class LevelsScrolling : MonoBehaviour
         contectRect = GetComponent<RectTransform>();
         levelArray = new GameObject[levelCount];
         levelPrefabPos = new Vector2[levelCount];
+        levelsLocked = Resources.LoadAll<Sprite>("sprites/levelsLocked") as Sprite[];
+        levelsUnlocked = Resources.LoadAll<Sprite>("sprites/levelsUnlocked") as Sprite[];
         for (int i = 0; i < levelCount; i++) {
+            levelPrefab.transform.GetChild(1).GetComponent<Text>().text = "Level " + (i+1).ToString();
+            //TODO: изменение спрайтов кнопок. Функция плей в кнопках(второе наверное отдельным скриптом)
             levelArray[i] = Instantiate(levelPrefab, transform, false);
             if (i == 0) continue;
             levelArray[i].transform.localPosition = new Vector2(levelArray[i-1].transform.localPosition.x + levelPrefab.GetComponent<RectTransform>().sizeDelta.x, levelArray[i].transform.localPosition.y);
