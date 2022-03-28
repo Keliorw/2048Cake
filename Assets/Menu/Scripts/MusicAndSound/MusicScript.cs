@@ -19,7 +19,7 @@ public class MusicScript : MonoBehaviour
     private float currentClipLength;
 
     private Save save;
-    private void Start() {
+    private void Start() {        
         save = Save.instance;
         audioSource = GetComponent<AudioSource>();
         musicVolume = save.musicVolume;

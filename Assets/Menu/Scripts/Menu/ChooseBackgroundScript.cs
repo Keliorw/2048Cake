@@ -19,7 +19,6 @@ public class ChooseBackgroundScript : MonoBehaviour
     }
 
     public void ChooseBackground() {
-        //TODO: пофиксить ошибку при закрытой панели
         save.currentBackground = backgroundScrolling.selectedBackgroundID;
         ChooseBackgroundСurrentSprite.sprite = save.backgrounds[save.currentBackground];
     }

@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public class BackgroundScrolling : MonoBehaviour
 {
+    public GameObject ChooseBackgroundButton;
+    public GameObject ChooseText;
+    public GameObject BuyText;
     public static BackgroundScrolling instance;
 
-    [Range(1, 50)]
     [Header("Controllers")]
     public int backgroundCount;
 
@@ -24,9 +26,6 @@ public class BackgroundScrolling : MonoBehaviour
     
     public int selectedBackgroundID;
     private bool isScrolling;
-
-    public GameObject[] backgroundID;
-
     private Save save;
 
     private void Awake() {
@@ -34,6 +33,8 @@ public class BackgroundScrolling : MonoBehaviour
     }
     private void Start() {
         save = Save.instance;
+        backgroundCount = save.backgrounds.Length;
+
         contectRect = GetComponent<RectTransform>();
         instPans = new GameObject[backgroundCount];
         backgroundPrefabPos = new Vector2[backgroundCount];
@@ -55,15 +56,21 @@ public class BackgroundScrolling : MonoBehaviour
                 selectedBackgroundID = i;
             }
         }
+        if (save.playerBackgrounds[selectedBackgroundID] == 1) {
+            ChooseText.SetActive(true);
+            BuyText.SetActive(false);
+        } else {
+            ChooseText.SetActive(false);
+            BuyText.SetActive(true);
+        }
+        if (selectedBackgroundID == save.currentBackground) {
+            ChooseBackgroundButton.SetActive(false);
+        } else { 
+            ChooseBackgroundButton.SetActive(true);
+        }
         if (isScrolling) return;
         contectVector.x = Mathf.SmoothStep(contectRect.anchoredPosition.x, backgroundPrefabPos[selectedBackgroundID].x, snapSpeed * Time.fixedDeltaTime);
         contectRect.anchoredPosition = contectVector;
-        
-        //TODO: генерировать префабы levelID в количестве уровней
-        for (int i = 0; i < backgroundCount; i++) {
-            backgroundID[i].GetComponent<Image>().color = Color.white;
-        }
-        backgroundID[selectedBackgroundID].GetComponent<Image>().color = Color.red;
     }
 
     public void Scrolling(bool scroll) {
