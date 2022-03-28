@@ -7,7 +7,7 @@ public class ImageManager : MonoBehaviour
 {
     public static ImageManager Instance;
 
-    public Image[] CellImage;
+    public Sprite[] CellSprite; 
     public Color[] CellColors;
 
     [Space(5)]

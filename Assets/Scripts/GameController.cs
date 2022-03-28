@@ -15,6 +15,10 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI pointsText;
 
+    [Space(5)]
+
+    [SerializeField]
+    private GameObject Menu;
 
 
     private void Awake()
@@ -50,6 +54,11 @@ public class GameController : MonoBehaviour
         gameResult.text = "You Lose!";
     }
 
+    public int GetPoints()
+    {
+        return Points;
+    }
+
     public void AddPoints(int points)
     {
         SetPoints(Points += points);
@@ -59,5 +68,14 @@ public class GameController : MonoBehaviour
     {
         Points = points;
         pointsText.text = Points.ToString();
+    }
+
+    public void OpenGameMenu()
+    {
+        if(Menu.active == true)
+            Menu.SetActive(false);
+        else 
+            Menu.SetActive(true);
+        
     }
 }

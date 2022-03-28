@@ -28,6 +28,11 @@ public class Board : MonoBehaviour
             Instance = this;
     }
 
+    private void Start()
+    {
+        SwipeDetection.SwipeEvent += OnInput;
+    }
+
     private void Update()
     {
 #if UNITY_EDITOR
@@ -219,7 +224,9 @@ public class Board : MonoBehaviour
         int value = Random.Range(0, 10) == 0 ? 2 : 1;
 
         var cell = emptyCells[Random.Range(0, emptyCells.Count)];
-        cell.SetValue(cell.X, cell.Y, value);
+        cell.SetValue(cell.X, cell.Y, value, false);
+
+        CellAnimationController.Instance.SmoothAppear(cell);
     }
 
     private void ResetCellsFlags()
