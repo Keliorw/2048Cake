@@ -14,6 +14,10 @@ public class SwipeDetection : MonoBehaviour
 
     private bool isSwiping;
     private bool isMobile;
+
+    [SerializeField]
+    private List<int> SaveBoardForBack;
+    private int SaveScore;
     
     void Start()
     {
@@ -39,6 +43,7 @@ public class SwipeDetection : MonoBehaviour
             {
                 if(Input.GetTouch(0).phase == TouchPhase.Began)
                 {
+
                     isSwiping = true;
                     tapPosition = Input.GetTouch(0).position;
                 } 
@@ -65,7 +70,8 @@ public class SwipeDetection : MonoBehaviour
         }
 
         if(swipeDelta.magnitude > deadZone)
-        {
+        {            
+            SaveBoard();
             if(Mathf.Abs(swipeDelta.x) > Mathf.Abs(swipeDelta.y))
                 SwipeEvent(swipeDelta.x > 0 ? Vector2.right : Vector2.left);
             else
@@ -83,5 +89,31 @@ public class SwipeDetection : MonoBehaviour
 
         tapPosition = Vector2.zero;
         swipeDelta = Vector2.zero;
+    }
+
+    public void SaveBoard()
+    {
+        if(SaveBoardForBack.Count != 0)
+            SaveBoardForBack.Clear();
+        
+        GameObject GameBoard = GameObject.FindGameObjectsWithTag("GameBoard")[0].gameObject;
+        foreach (Transform child in GameBoard.transform)
+        {
+            SaveBoardForBack.Add(child.GetComponent<Cell>().Value);
+        }
+        SaveScore = GameController.Instance.GetPoints();
+    }
+
+    public void BackOneMove()
+    {
+        int numerator = 0;
+        GameObject GameBoard = GameObject.FindGameObjectsWithTag("GameBoard")[0].gameObject;
+        foreach (int value in SaveBoardForBack)
+        {
+            GameBoard.transform.GetChild(numerator).GetComponent<Cell>().SetValue(0, 0, value, true, false);
+            numerator++;
+        }
+        GameController.Instance.AddPoints(SaveScore-GameController.Instance.GetPoints());
+        SaveBoardForBack.Clear();
     }
 }

@@ -20,14 +20,18 @@ public class Cell : MonoBehaviour
     [SerializeField]
     private Image image;
     [SerializeField]
-    private TextMeshProUGUI points;
+    private Image points;
 
     private CellAnimation currentAnimation;
 
-    public void SetValue(int x, int y, int value, bool updateUI = true)
+    public void SetValue(int x, int y, int value, bool updateUI = true, bool updateCoordinats = true)
     {
-        X = x;
-        Y = y;
+        if(updateCoordinats)
+        {
+            X = x;
+            Y = y;
+        }
+        
         Value = value;
 
         if(updateUI)
@@ -65,11 +69,12 @@ public class Cell : MonoBehaviour
 
     public void UpdateCell()
     {
-        points.text = IsEmpty ? string.Empty : Points.ToString();
+        // points.text = IsEmpty ? string.Empty : Points.ToString();
 
-        points.color = Value <= 2 ? ImageManager.Instance.PointsDarkColor : ImageManager.Instance.PointsLightColor;
+        // points.color = Value <= 2 ? ImageManager.Instance.PointsDarkColor : ImageManager.Instance.PointsLightColor;
 
-        image.color = ImageManager.Instance.CellColors[Value];
+        points.sprite = ImageManager.Instance.CellSprite[Value];
+        points.color = ImageManager.Instance.CellColors[Value];
     }
 
     public void SetAnimation(CellAnimation animation)

@@ -10,7 +10,7 @@ public class CellAnimation : MonoBehaviour
     [SerializeField]
     private Image image;
     [SerializeField]
-    private TextMeshProUGUI points;
+    private Image points;
 
     private float moveTime = .1f;
     private float appearTime = .1f;
@@ -22,11 +22,7 @@ public class CellAnimation : MonoBehaviour
         from.CancelAnimation();
         to.SetAnimation(this);
 
-        image.color = ImageManager.Instance.CellColors[from.Value];
-        points.text = from.Points.ToString();
-        points.color = from.Value <= 2 ?
-            ImageManager.Instance.PointsDarkColor :
-            ImageManager.Instance.PointsLightColor;
+        points.sprite = ImageManager.Instance.CellSprite[from.Value];
 
         transform.position = from.transform.position;
 
@@ -38,11 +34,7 @@ public class CellAnimation : MonoBehaviour
         {
             sequence.AppendCallback(() => 
             {
-                image.color = ImageManager.Instance.CellColors[to.Value];
-                points.text = to.Points.ToString();
-                points.color = to.Value <= 2 ?
-                    ImageManager.Instance.PointsDarkColor :
-                    ImageManager.Instance.PointsLightColor;
+                points.sprite = ImageManager.Instance.CellSprite[to.Value];
             });
 
             sequence.Append(transform.DOScale(1.2f, appearTime));
@@ -61,11 +53,7 @@ public class CellAnimation : MonoBehaviour
         cell.CancelAnimation();
         cell.SetAnimation(this);
 
-        image.color = ImageManager.Instance.CellColors[cell.Value];
-        points.text = cell.Points.ToString();
-        points.color = cell.Value <= 2 ?
-            ImageManager.Instance.PointsDarkColor :
-            ImageManager.Instance.PointsLightColor;
+        points.sprite = ImageManager.Instance.CellSprite[cell.Value];
 
         transform.position = cell.transform.position;
         transform.localScale = Vector2.zero;
