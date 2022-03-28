@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
+    private Save save;
     public static GameController Instance;
 
     public static int Points { get; private set; }
@@ -29,6 +31,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        save = Save.instance;
         StartGame();
     }
 
@@ -77,5 +80,10 @@ public class GameController : MonoBehaviour
         else 
             Menu.SetActive(true);
         
+    }
+
+    public void BackMenu() {
+        save.SaveGame();
+        SceneManager.LoadScene(0);
     }
 }

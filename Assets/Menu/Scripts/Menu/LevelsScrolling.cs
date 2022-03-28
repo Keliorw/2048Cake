@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class LevelsScrolling : MonoBehaviour
 {
     public static LevelsScrolling instance;
-
     [Range(1, 50)]
     [Header("Controllers")]
     public int levelCount;
