@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SwipeDetection : MonoBehaviour
 {
+    public static SwipeDetection instance;
+    private Save save;
     public static event OnSwipeInput SwipeEvent;
     public delegate void OnSwipeInput(Vector2 direction);
 
@@ -21,8 +23,12 @@ public class SwipeDetection : MonoBehaviour
     private int SaveScore;
     private StatusButton InstanceButton;
     
+    private void Awake() {
+        instance = this;
+    }
     void Start()
     {
+        save = Save.instance;
         isMobile = Application.isMobilePlatform;
         InstanceButton = GameObject.FindGameObjectsWithTag("ButtonManager")[0].gameObject.GetComponent<ButtonList>().ListButton[0].gameObject.GetComponent<StatusButton>();
     }
@@ -134,5 +140,10 @@ public class SwipeDetection : MonoBehaviour
         }
         GameController.Instance.AddPoints(SaveScore-GameController.Instance.GetPoints());
         SaveBoardForBack.Clear();
+    }
+
+    public void SetNowBoard() 
+    {
+        //wqe = save.saveBoardForBack
     }
 }

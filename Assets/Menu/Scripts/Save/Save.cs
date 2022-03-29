@@ -5,14 +5,13 @@ using UnityEngine.UI;
 public class Save : MonoBehaviour
 {
     public static Save instance;
+    private SwipeDetection swipeDetection;
     public int levelsPassed;
-
-    //TODO при добавлении нового фона сделать проверку чтобы ошибка не дропалась
     public int[] playerBackgrounds;
     private string playerBackgroundsSave;
-    public int[] saveNowBoard;
+    public List<int> saveNowBoard;
     private string saveNowBoardSave;
-    public int[] saveBoardForBack;
+    public List<int> saveBoardForBack;
     private string saveBoardForBackSave;
     public int score;
     public int currentBackground;
@@ -22,6 +21,9 @@ public class Save : MonoBehaviour
     public Sprite[] backgrounds;
     public int currentCells = 25;
      
+    private void Start() {
+        swipeDetection = SwipeDetection.instance;
+    }
     private void Awake() {
         instance = this;
         backgrounds = Resources.LoadAll<Sprite>("backgrounds") as Sprite[];
@@ -57,6 +59,9 @@ public class Save : MonoBehaviour
     public void SaveCurrentGame () {
         PlayerPrefs.SetInt("Score", score);
 
+        saveNowBoard = swipeDetection.SaveBoard(true);
+        saveBoardForBack = swipeDetection.SaveBoard(false);
+
         foreach (var cellsNow in saveNowBoard) saveNowBoardSave += cellsNow + ",";
         saveNowBoardSave = saveNowBoardSave.Remove(saveNowBoardSave.Length-1);
         PlayerPrefs.SetString("SaveNowBoard", saveNowBoardSave);
@@ -75,13 +80,13 @@ public class Save : MonoBehaviour
             string[] loadedCellsNow = PlayerPrefs.GetString("SaveNowBoard").Split(",".ToCharArray());
             for (int i = 0; i < currentCells; i++)
                 {
-                    saveNowBoard[i] = int.Parse(loadedCellsNow[i]);
+                    saveNowBoard.Add(int.Parse(loadedCellsNow[i]));
                 } 
 
             string[] loadedCellsBack = PlayerPrefs.GetString("SaveBoardForBack").Split(",".ToCharArray());
             for (int i = 0; i < currentCells; i++)
                 {
-                    saveBoardForBack[i] = int.Parse(loadedCellsBack[i]);
+                    saveBoardForBack.Add(int.Parse(loadedCellsBack[i]));
                 }
         }
 
