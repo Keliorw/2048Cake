@@ -146,6 +146,14 @@ public class SwipeDetection : MonoBehaviour
 
     public void SetNowBoard() 
     {
-        //wqe = save.saveBoardForBack
+        SaveBoardForBack = save.saveBoardForBack;
+        SaveNowBoard = save.saveNowBoard;
+        int numerator = 0;
+        GameObject GameBoard = GameObject.FindGameObjectsWithTag("GameBoard")[0].gameObject;
+        foreach (int value in SaveNowBoard)
+        {
+            GameBoard.transform.GetChild(numerator).GetComponent<Cell>().SetValue(0, 0, value, true, false);
+            numerator++;
+        }
     }
 }
