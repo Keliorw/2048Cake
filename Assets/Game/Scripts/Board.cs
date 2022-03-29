@@ -191,6 +191,7 @@ public class Board : MonoBehaviour
                 board[x, y] = cell;
 
                 cell.SetValue(x, y, 0);
+                cell.SetSize((int)CellSize, (int)CellSize);
             }
         }
     }
