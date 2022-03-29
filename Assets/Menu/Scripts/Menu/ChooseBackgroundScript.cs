@@ -7,19 +7,26 @@ public class ChooseBackgroundScript : MonoBehaviour
 {
     public static ChooseBackgroundScript instance;
     public Image ChooseBackgroundСurrentSprite;
-    private BackgroundScrolling backgroundScrolling;
     private Save save;
+    public int selectedBackgroundID;
     
     private void Awake() {
         instance = this;
     }
     private void Start() {
-        backgroundScrolling = BackgroundScrolling.instance;
         save = Save.instance;
     }
 
     public void ChooseBackground() {
-        save.currentBackground = backgroundScrolling.selectedBackgroundID;
         ChooseBackgroundСurrentSprite.sprite = save.backgrounds[save.currentBackground];
+    }
+
+    public void Scroll(bool rotation) {
+        if (rotation == true && selectedBackgroundID < save.backgrounds.Length - 1) {
+            selectedBackgroundID++;
+        } else if (rotation == false && selectedBackgroundID > 0) {
+            selectedBackgroundID--;
+        }
+        ChooseBackgroundСurrentSprite.sprite = save.backgrounds[selectedBackgroundID];
     }
 }

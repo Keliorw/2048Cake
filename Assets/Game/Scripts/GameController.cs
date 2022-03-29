@@ -83,7 +83,8 @@ public class GameController : MonoBehaviour
     }
 
     public void BackMenu() {
-        save.SaveGame();
+        save.SaveGameSettings();
+        save.SaveCurrentGame();
         SceneManager.LoadScene(0);
     }
 }

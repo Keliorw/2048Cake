@@ -10,20 +10,26 @@ public class Save : MonoBehaviour
     //TODO при добавлении нового фона сделать проверку чтобы ошибка не дропалась
     public int[] playerBackgrounds;
     private string playerBackgroundsSave;
+    public int[] saveNowBoard;
+    private string saveNowBoardSave;
+    public int[] saveBoardForBack;
+    private string saveBoardForBackSave;
+    public int score;
     public int currentBackground;
     public float soundVolume;
     public float musicVolume;
 
     public Sprite[] backgrounds;
+    public int currentCells = 25;
      
     private void Awake() {
         instance = this;
         backgrounds = Resources.LoadAll<Sprite>("backgrounds") as Sprite[];
         playerBackgrounds = new int[backgrounds.Length];
-        LoadGame();
+        LoadGameSetggins();
     }
 
-    public void SaveGame() {
+    public void SaveGameSettings() {
          PlayerPrefs.SetInt("LevelsPassed", levelsPassed);
          PlayerPrefs.SetInt("CurrentBackground", currentBackground);
          PlayerPrefs.SetFloat("SoundVolume", soundVolume);
@@ -34,7 +40,7 @@ public class Save : MonoBehaviour
          PlayerPrefs.Save();
     }
 
-    public void LoadGame() {
+    public void LoadGameSetggins() {
         if (PlayerPrefs.HasKey("LevelsPassed") || PlayerPrefs.HasKey("PlayerBackgrounds") || PlayerPrefs.HasKey("CurrentBackground") || PlayerPrefs.HasKey("SoundVolume") || PlayerPrefs.HasKey("MusicVolume")) {
             levelsPassed = PlayerPrefs.GetInt("LevelsPassed");
             currentBackground = PlayerPrefs.GetInt("CurrentBackground");
@@ -44,11 +50,45 @@ public class Save : MonoBehaviour
             for (int i = 0; i < backgrounds.Length; i++)
             {
                 playerBackgrounds[i] = int.Parse(loadedBackgrounds[i]);
-            }  
+            } 
         }
     }
 
+    public void SaveCurrentGame () {
+        PlayerPrefs.SetInt("Score", score);
+
+        foreach (var cellsNow in saveNowBoard) saveNowBoardSave += cellsNow + ",";
+        saveNowBoardSave = saveNowBoardSave.Remove(saveNowBoardSave.Length-1);
+        PlayerPrefs.SetString("SaveNowBoard", saveNowBoardSave);
+         
+        foreach (var cellsBack in saveBoardForBack) saveBoardForBackSave += cellsBack + ",";
+        saveBoardForBackSave = saveBoardForBackSave.Remove(saveBoardForBackSave.Length-1);
+        PlayerPrefs.SetString("SaveBoardForBack", saveBoardForBackSave);
+
+        PlayerPrefs.Save();
+    }
+
+    public void LoadCurrentGame() {
+        if (PlayerPrefs.HasKey("Score") || PlayerPrefs.HasKey("SaveNowBoard")) {
+            score = PlayerPrefs.GetInt("Score");
+
+            string[] loadedCellsNow = PlayerPrefs.GetString("SaveNowBoard").Split(",".ToCharArray());
+            for (int i = 0; i < currentCells; i++)
+                {
+                    saveNowBoard[i] = int.Parse(loadedCellsNow[i]);
+                } 
+
+            string[] loadedCellsBack = PlayerPrefs.GetString("SaveBoardForBack").Split(",".ToCharArray());
+            for (int i = 0; i < currentCells; i++)
+                {
+                    saveBoardForBack[i] = int.Parse(loadedCellsBack[i]);
+                }
+        }
+
+    }
+
     private void OnApplicationQuit() {
-        SaveGame();
+        SaveGameSettings();
+        SaveCurrentGame();
     }
 }

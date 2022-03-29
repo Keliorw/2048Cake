@@ -16,27 +16,27 @@ public class BackgroundIDPrefabs : MonoBehaviour
     public GameObject backgroundIDPrefab;
 
     private Vector2[] backgroundIDPrefabPos;
-    private BackgroundScrolling backgroundScrolling;
+    private ChooseBackgroundScript chooseBackgroundScript;
     private float startPosition;
     private float maxLength;
 
     private float screenSize;
     private Save save;
     private void Start() {
-        backgroundScrolling = BackgroundScrolling.instance;
+        chooseBackgroundScript = ChooseBackgroundScript.instance;
         save = Save.instance;
 
         contectRect = GetComponent<RectTransform>();
 
-        if (backgroundScrolling.backgroundCount % 2==1) {
-                startPosition = -(backgroundScrolling.backgroundCount/2)*(backgroundIDPrefab.GetComponent<RectTransform>().sizeDelta.x + backgroundIDPrefabOffset);
+        if (save.backgrounds.Length % 2==1) {
+                startPosition = -(save.backgrounds.Length/2)*(backgroundIDPrefab.GetComponent<RectTransform>().sizeDelta.x + backgroundIDPrefabOffset);
             } else {
-                startPosition = -(backgroundScrolling.backgroundCount/2)*(backgroundIDPrefab.GetComponent<RectTransform>().sizeDelta.x + backgroundIDPrefabOffset) + (backgroundIDPrefab.GetComponent<RectTransform>().sizeDelta.x + backgroundIDPrefabOffset)/2;
+                startPosition = -(save.backgrounds.Length/2)*(backgroundIDPrefab.GetComponent<RectTransform>().sizeDelta.x + backgroundIDPrefabOffset) + (backgroundIDPrefab.GetComponent<RectTransform>().sizeDelta.x + backgroundIDPrefabOffset)/2;
             }
 
-        backgroundIDArray = new GameObject[backgroundScrolling.backgroundCount];
-        backgroundIDPrefabPos = new Vector2[backgroundScrolling.backgroundCount];
-        for (int i = 0; i < backgroundScrolling.backgroundCount; i++) {
+        backgroundIDArray = new GameObject[save.backgrounds.Length];
+        backgroundIDPrefabPos = new Vector2[save.backgrounds.Length];
+        for (int i = 0; i < save.backgrounds.Length; i++) {
             backgroundIDArray[i] = Instantiate(backgroundIDPrefab, transform, false);
             backgroundIDArray[0].transform.localPosition = new Vector2(startPosition,backgroundIDArray[i].transform.localPosition.y);
             if (i == 0) continue;
@@ -46,10 +46,10 @@ public class BackgroundIDPrefabs : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        for (int i = 0; i < backgroundScrolling.backgroundCount; i++) {
+        for (int i = 0; i < save.backgrounds.Length; i++) {
             backgroundIDArray[i].GetComponent<Image>().sprite = DotUnactive;
         }
-        backgroundIDArray[backgroundScrolling.selectedBackgroundID].GetComponent<Image>().sprite = DotActive;
+        backgroundIDArray[chooseBackgroundScript.selectedBackgroundID].GetComponent<Image>().sprite = DotActive;
         backgroundIDArray[save.currentBackground].GetComponent<Image>().sprite = DotChosen;
     }
 }
