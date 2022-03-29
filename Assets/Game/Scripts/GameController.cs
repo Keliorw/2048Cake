@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
     private Save save;
-    public static GameController Instance;
+    private SwipeDetection swipeDetection;
+    public static GameController instance;
 
     public static int Points { get; private set; }
     public static bool GameStarted { get; private set; }
@@ -27,13 +28,14 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null)
-            Instance = this;
+        if(instance == null)
+            instance = this;
     }
 
     void Start()
     {
         save = Save.instance;
+        swipeDetection = SwipeDetection.instance;
         StartGame();
         InstanceButton = GameObject.FindGameObjectsWithTag("ButtonManager")[0].gameObject.GetComponent<ButtonList>().ListButton[0].gameObject.GetComponent<StatusButton>();
     }
@@ -41,11 +43,18 @@ public class GameController : MonoBehaviour
     public void StartGame()
     {
         gameResult.text = "";
-
-        SetPoints(0);
-        GameStarted = true;
-
+        
         Board.Instance.GenerateBoard();
+        GameStarted = true;
+        if (!PlayerPrefs.HasKey("Score") && !PlayerPrefs.HasKey("SaveNowBoard")) {
+            SetPoints(0);
+        } else {
+            save.LoadCurrentGame();
+            swipeDetection.SaveNowBoard = save.saveNowBoard;
+            swipeDetection.SaveBoardForBack = save.saveBoardForBack;
+            SetPoints(save.score);
+            swipeDetection.SetNowBoard();
+        }
     }
 
     public void Win()

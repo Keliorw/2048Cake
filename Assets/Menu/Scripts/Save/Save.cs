@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class Save : MonoBehaviour
 {
     public static Save instance;
     private SwipeDetection swipeDetection;
+    private GameController gameController;
     public int levelsPassed;
     public int[] playerBackgrounds;
     private string playerBackgroundsSave;
@@ -19,10 +20,10 @@ public class Save : MonoBehaviour
     public float musicVolume;
 
     public Sprite[] backgrounds;
-    public int currentCells = 25;
      
     private void Start() {
         swipeDetection = SwipeDetection.instance;
+        gameController = GameController.instance;
     }
     private void Awake() {
         instance = this;
@@ -57,6 +58,7 @@ public class Save : MonoBehaviour
     }
 
     public void SaveCurrentGame () {
+        score = gameController.GetPoints();
         PlayerPrefs.SetInt("Score", score);
 
         saveNowBoard = swipeDetection.SaveBoard(true);
@@ -78,22 +80,22 @@ public class Save : MonoBehaviour
             score = PlayerPrefs.GetInt("Score");
 
             string[] loadedCellsNow = PlayerPrefs.GetString("SaveNowBoard").Split(",".ToCharArray());
-            for (int i = 0; i < currentCells; i++)
+            for (int i = 0; i < loadedCellsNow.Length; i++)
                 {
                     saveNowBoard.Add(int.Parse(loadedCellsNow[i]));
                 } 
-
             string[] loadedCellsBack = PlayerPrefs.GetString("SaveBoardForBack").Split(",".ToCharArray());
-            for (int i = 0; i < currentCells; i++)
+            for (int i = 0; i < loadedCellsBack.Length; i++)
                 {
                     saveBoardForBack.Add(int.Parse(loadedCellsBack[i]));
                 }
         }
-
     }
 
     private void OnApplicationQuit() {
         SaveGameSettings();
-        SaveCurrentGame();
+        if(SceneManager.GetActiveScene().name == "Game") {
+            SaveCurrentGame();
+        }
     }
 }

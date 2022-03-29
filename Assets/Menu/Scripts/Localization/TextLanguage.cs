@@ -10,6 +10,8 @@ public class TextLanguage : MonoBehaviour
 
     public string textRu;
     public string textEng;
+    public string textJap;
+    public string textKor;
     private void Start() {
         text = GetComponent<Text>();
     }
@@ -22,6 +24,12 @@ public class TextLanguage : MonoBehaviour
         }
         else if (language == "Ru") {
             text.text = textRu;
+        }
+        else if (language == "Jap") {
+            text.text = textJap;
+        }
+        else if (language == "Kor") {
+            text.text = textKor;
         }
     }
 }

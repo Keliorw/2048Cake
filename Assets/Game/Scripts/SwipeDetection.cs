@@ -105,7 +105,7 @@ public class SwipeDetection : MonoBehaviour
     public List<int> SaveBoard(bool back = false)
     {
         GameObject GameBoard = GameObject.FindGameObjectsWithTag("GameBoard")[0].gameObject;
-        SaveScore = GameController.Instance.GetPoints();
+        SaveScore = GameController.instance.GetPoints();
         if(back == true)
         {
             if(SaveNowBoard.Count != 0)
@@ -140,18 +140,12 @@ public class SwipeDetection : MonoBehaviour
             GameBoard.transform.GetChild(numerator).GetComponent<Cell>().SetValue(0, 0, value, true, false);
             numerator++;
         }
-        GameController.Instance.AddPoints(SaveScore-GameController.Instance.GetPoints());
+        GameController.instance.AddPoints(SaveScore-GameController.instance.GetPoints());
         SaveBoardForBack.Clear();
     }
 
     public void SetNowBoard() 
     {
-        if(SaveBoardForBack.Count != 0)
-            SaveBoardForBack.Clear();
-        SaveBoardForBack = save.saveBoardForBack;
-        if(SaveNowBoard.Count != 0)
-            SaveNowBoard.Clear();
-        SaveNowBoard = save.saveNowBoard;
         int numerator = 0;
         GameObject GameBoard = GameObject.FindGameObjectsWithTag("GameBoard")[0].gameObject;
         foreach (int value in SaveNowBoard)

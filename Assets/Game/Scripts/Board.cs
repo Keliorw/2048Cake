@@ -149,7 +149,7 @@ public class Board : MonoBehaviour
             {
                 if(board[x, y].Value == Cell.MaxValue)
                 {
-                    GameController.Instance.Win();
+                    GameController.instance.Win();
                     return;
                 }
 
@@ -167,7 +167,7 @@ public class Board : MonoBehaviour
         }
 
         if(lose)
-            GameController.Instance.Lose();
+            GameController.instance.Lose();
     }
 
     private void CreateBoard()
@@ -207,8 +207,10 @@ public class Board : MonoBehaviour
             for(int y = 0; y < BoardSize; y++)
                 board[x, y].SetValue(x, y, 0);
 
-        for(int i = 0; i < InitCellCount; i++)
-            GenerateRandomCell();
+        if (!PlayerPrefs.HasKey("Score") && !PlayerPrefs.HasKey("SaveNowBoard")) {
+            for(int i = 0; i < InitCellCount; i++)
+                GenerateRandomCell();
+        }   
     }
 
     private void GenerateRandomCell()

@@ -15,4 +15,12 @@ public class LocalizationManager : MonoBehaviour
         PlayerPrefs.SetString("Language", language);
     }
 
+    public void LanguageJap() {
+        string language = "Jap";
+        PlayerPrefs.SetString("Language", language);
+    }
+    public void LanguageKor () {
+        string language = "Kor";
+        PlayerPrefs.SetString("Language", language);
+    }
 }

@@ -53,7 +53,7 @@ public class Cell : MonoBehaviour
         Value++;
         HasMerge = true;
 
-        GameController.Instance.AddPoints(Points);
+        GameController.instance.AddPoints(Points);
     }
 
     public void ResetFlags()

@@ -15,7 +15,6 @@ public class PlayButtonScript : MonoBehaviour
 
     public void StartGame () {
         save.SaveGameSettings();
-        save.LoadCurrentGame();
         SceneManager.LoadScene(1);
     }
 }
