@@ -18,13 +18,14 @@ public class SwipeDetection : MonoBehaviour
     private bool isMobile;
 
     [SerializeField]
-    private List<int> SaveBoardForBack;
-    private List<int> SaveNowBoard;
+    public List<int> SaveBoardForBack;
+    public List<int> SaveNowBoard;
     private int SaveScore;
     private StatusButton InstanceButton;
     
     private void Awake() {
-        instance = this;
+        if(instance == null)
+            instance = this;
     }
     void Start()
     {
@@ -33,7 +34,6 @@ public class SwipeDetection : MonoBehaviour
         InstanceButton = GameObject.FindGameObjectsWithTag("ButtonManager")[0].gameObject.GetComponent<ButtonList>().ListButton[0].gameObject.GetComponent<StatusButton>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(!isMobile)
