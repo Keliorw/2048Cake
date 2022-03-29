@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class LevelsScrolling : MonoBehaviour
 {
     public static LevelsScrolling instance;
-
     [Range(1, 50)]
     [Header("Controllers")]
     public int levelCount;
@@ -26,11 +25,12 @@ public class LevelsScrolling : MonoBehaviour
     private Vector2 contectVector;    
     public int selectedLevelID;
     private bool isScrolling;
-
+    private Save save;
     private void Awake() {
         instance = this;
     }
     private void Start() {
+        save = Save.instance;
         contectRect = GetComponent<RectTransform>();
         levelArray = new GameObject[levelCount];
         levelPrefabPos = new Vector2[levelCount];
@@ -38,7 +38,11 @@ public class LevelsScrolling : MonoBehaviour
         levelsUnlocked = Resources.LoadAll<Sprite>("sprites/levelsUnlocked") as Sprite[];
         for (int i = 0; i < levelCount; i++) {
             levelPrefab.transform.GetChild(1).GetComponent<Text>().text = "Level " + (i+1).ToString();
-            //TODO: изменение спрайтов кнопок. Функция плей в кнопках(второе наверное отдельным скриптом)
+            if(i <= save.levelsPassed) {
+                levelPrefab.transform.GetChild(0).GetComponent<Image>().sprite = levelsUnlocked[i];
+            } else {
+                levelPrefab.transform.GetChild(0).GetComponent<Image>().sprite = levelsLocked[i];
+            }
             levelArray[i] = Instantiate(levelPrefab, transform, false);
             if (i == 0) continue;
             levelArray[i].transform.localPosition = new Vector2(levelArray[i-1].transform.localPosition.x + levelPrefab.GetComponent<RectTransform>().sizeDelta.x, levelArray[i].transform.localPosition.y);

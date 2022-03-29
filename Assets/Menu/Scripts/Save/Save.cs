@@ -6,7 +6,10 @@ public class Save : MonoBehaviour
 {
     public static Save instance;
     public int levelsPassed;
-    public int playerBackgrounds;
+
+    //TODO при добавлении нового фона сделать проверку чтобы ошибка не дропалась
+    public int[] playerBackgrounds;
+    private string playerBackgroundsSave;
     public int currentBackground;
     public float soundVolume;
     public float musicVolume;
@@ -16,33 +19,36 @@ public class Save : MonoBehaviour
     private void Awake() {
         instance = this;
         backgrounds = Resources.LoadAll<Sprite>("backgrounds") as Sprite[];
+        playerBackgrounds = new int[backgrounds.Length];
         LoadGame();
     }
 
     public void SaveGame() {
          PlayerPrefs.SetInt("LevelsPassed", levelsPassed);
-         PlayerPrefs.SetInt("PlayerBackgrounds", playerBackgrounds);
          PlayerPrefs.SetInt("CurrentBackground", currentBackground);
          PlayerPrefs.SetFloat("SoundVolume", soundVolume);
          PlayerPrefs.SetFloat("MusicVolume", musicVolume);
+         foreach (var backgrounds in playerBackgrounds) playerBackgroundsSave += backgrounds + ",";
+         playerBackgroundsSave = playerBackgroundsSave.Remove(playerBackgroundsSave.Length-1);
+         PlayerPrefs.SetString("PlayerBackgrounds", playerBackgroundsSave);
          PlayerPrefs.Save();
     }
 
     public void LoadGame() {
         if (PlayerPrefs.HasKey("LevelsPassed") || PlayerPrefs.HasKey("PlayerBackgrounds") || PlayerPrefs.HasKey("CurrentBackground") || PlayerPrefs.HasKey("SoundVolume") || PlayerPrefs.HasKey("MusicVolume")) {
             levelsPassed = PlayerPrefs.GetInt("LevelsPassed");
-            playerBackgrounds = PlayerPrefs.GetInt("PlayerBackgrounds");
             currentBackground = PlayerPrefs.GetInt("CurrentBackground");
             soundVolume = PlayerPrefs.GetFloat("SoundVolume");
             musicVolume = PlayerPrefs.GetFloat("MusicVolume");
+            string[] loadedBackgrounds = PlayerPrefs.GetString("PlayerBackgrounds").Split(",".ToCharArray());
+            for (int i = 0; i < backgrounds.Length; i++)
+            {
+                playerBackgrounds[i] = int.Parse(loadedBackgrounds[i]);
+            }  
         }
     }
 
     private void OnApplicationQuit() {
-        SaveGame();
-    }
-
-    private void OnApplicationPause(bool pauseStatus) {
         SaveGame();
     }
 }
