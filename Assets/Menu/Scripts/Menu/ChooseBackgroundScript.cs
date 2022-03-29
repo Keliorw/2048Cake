@@ -15,10 +15,11 @@ public class ChooseBackgroundScript : MonoBehaviour
     }
     private void Start() {
         save = Save.instance;
+        ChooseBackgroundСurrentSprite.sprite = save.backgrounds[selectedBackgroundID];
     }
 
     public void ChooseBackground() {
-        ChooseBackgroundСurrentSprite.sprite = save.backgrounds[save.currentBackground];
+        save.currentBackground = selectedBackgroundID;
     }
 
     public void Scroll(bool rotation) {

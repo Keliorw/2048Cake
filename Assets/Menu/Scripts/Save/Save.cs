@@ -74,7 +74,7 @@ public class Save : MonoBehaviour
     }
 
     public void LoadCurrentGame() {
-        if (PlayerPrefs.HasKey("Score") || PlayerPrefs.HasKey("SaveNowBoard")) {
+        if (PlayerPrefs.HasKey("Score") && PlayerPrefs.HasKey("SaveNowBoard")) {
             score = PlayerPrefs.GetInt("Score");
 
             string[] loadedCellsNow = PlayerPrefs.GetString("SaveNowBoard").Split(",".ToCharArray());

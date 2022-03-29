@@ -108,6 +108,8 @@ public class SwipeDetection : MonoBehaviour
         SaveScore = GameController.Instance.GetPoints();
         if(back == true)
         {
+            if(SaveNowBoard.Count != 0)
+                SaveNowBoard.Clear();
             foreach (Transform child in GameBoard.transform)
             {
                 SaveNowBoard.Add(child.GetComponent<Cell>().Value);
