@@ -75,7 +75,7 @@ public class GameController : MonoBehaviour
 
     public void OpenGameMenu()
     {
-        if(Menu.active == true)
+        if(Menu.activeSelf == true)
             Menu.SetActive(false);
         else 
             Menu.SetActive(true);

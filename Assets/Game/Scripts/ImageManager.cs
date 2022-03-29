@@ -20,4 +20,6 @@ public class ImageManager : MonoBehaviour
             Instance = this;
     }
 
+    
+
 }
