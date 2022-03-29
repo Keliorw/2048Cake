@@ -22,6 +22,8 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GameObject Menu;
 
+    private StatusButton InstanceButton;
+
 
     private void Awake()
     {
@@ -33,6 +35,7 @@ public class GameController : MonoBehaviour
     {
         save = Save.instance;
         StartGame();
+        InstanceButton = GameObject.FindGameObjectsWithTag("ButtonManager")[0].gameObject.GetComponent<ButtonList>().ListButton[0].gameObject.GetComponent<StatusButton>();
     }
 
     public void StartGame()
@@ -53,6 +56,8 @@ public class GameController : MonoBehaviour
 
     public void Lose()
     {
+        InstanceButton.isActive = false;
+        InstanceButton.UpdateStatus();
         GameStarted = false;
         gameResult.text = "You Lose!";
     }

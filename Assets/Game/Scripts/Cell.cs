@@ -9,6 +9,9 @@ public class Cell : MonoBehaviour
     public int X {get; private set;}
     public int Y {get; private set;}
 
+    public int SizeX {get; private set;}
+    public int SizeY {get; private set;}
+
     public int Value {get; private set;}
     public int Points => IsEmpty ? 0 : (int)Mathf.Pow(2, Value);
 
@@ -26,7 +29,7 @@ public class Cell : MonoBehaviour
 
     public void SetValue(int x, int y, int value, bool updateUI = true, bool updateCoordinats = true)
     {
-        if(updateCoordinats)
+        if(updateCoordinats) 
         {
             X = x;
             Y = y;
@@ -36,6 +39,13 @@ public class Cell : MonoBehaviour
 
         if(updateUI)
             UpdateCell();
+    }
+
+    public void SetSize(int SizeX, int SizeY)
+    {
+        this.SizeX = SizeX;
+        this.SizeY = SizeY;
+        this.GetComponent<RectTransform>().sizeDelta = new Vector2(this.SizeX, this.SizeY);
     }
 
     public void IncreaseValue()

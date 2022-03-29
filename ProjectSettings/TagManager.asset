@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GameBoard
   - Canvas
+  - ButtonManager
   layers:
   - Default
   - TransparentFX

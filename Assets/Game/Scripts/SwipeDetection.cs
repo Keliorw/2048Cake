@@ -17,11 +17,14 @@ public class SwipeDetection : MonoBehaviour
 
     [SerializeField]
     private List<int> SaveBoardForBack;
+    private List<int> SaveNowBoard;
     private int SaveScore;
+    private StatusButton InstanceButton;
     
     void Start()
     {
         isMobile = Application.isMobilePlatform;
+        InstanceButton = GameObject.FindGameObjectsWithTag("ButtonManager")[0].gameObject.GetComponent<ButtonList>().ListButton[0].gameObject.GetComponent<StatusButton>();
     }
 
     // Update is called once per frame
@@ -72,6 +75,8 @@ public class SwipeDetection : MonoBehaviour
         if(swipeDelta.magnitude > deadZone)
         {            
             SaveBoard();
+            InstanceButton.isActive = true;
+            InstanceButton.UpdateStatus();
             if(Mathf.Abs(swipeDelta.x) > Mathf.Abs(swipeDelta.y))
                 SwipeEvent(swipeDelta.x > 0 ? Vector2.right : Vector2.left);
             else
@@ -91,21 +96,35 @@ public class SwipeDetection : MonoBehaviour
         swipeDelta = Vector2.zero;
     }
 
-    public void SaveBoard()
+    public List<int> SaveBoard(bool back = false)
     {
-        if(SaveBoardForBack.Count != 0)
-            SaveBoardForBack.Clear();
-        
         GameObject GameBoard = GameObject.FindGameObjectsWithTag("GameBoard")[0].gameObject;
-        foreach (Transform child in GameBoard.transform)
-        {
-            SaveBoardForBack.Add(child.GetComponent<Cell>().Value);
-        }
         SaveScore = GameController.Instance.GetPoints();
+        if(back == true)
+        {
+            foreach (Transform child in GameBoard.transform)
+            {
+                SaveNowBoard.Add(child.GetComponent<Cell>().Value);
+            }
+            return SaveNowBoard;
+        }
+        else 
+        {
+            if(SaveBoardForBack.Count != 0)
+                SaveBoardForBack.Clear();
+            foreach (Transform child in GameBoard.transform)
+            {
+                SaveBoardForBack.Add(child.GetComponent<Cell>().Value);
+            }
+
+            return SaveBoardForBack;
+        }
     }
 
     public void BackOneMove()
     {
+        InstanceButton.isActive = false;
+        InstanceButton.UpdateStatus();
         int numerator = 0;
         GameObject GameBoard = GameObject.FindGameObjectsWithTag("GameBoard")[0].gameObject;
         foreach (int value in SaveBoardForBack)

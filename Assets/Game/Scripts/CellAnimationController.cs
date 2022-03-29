@@ -20,11 +20,15 @@ public class CellAnimationController : MonoBehaviour
     
     public void SmoothTransition(Cell from, Cell to, bool isMerging)
     {
-        Instantiate(animationPref, transform, false).Move(from, to, isMerging);
+        CellAnimation CellAnimation = Instantiate(animationPref, transform, false);
+        CellAnimation.GetComponent<RectTransform>().sizeDelta = new Vector2(from.GetComponent<RectTransform>().sizeDelta.x, from.GetComponent<RectTransform>().sizeDelta.y);
+        CellAnimation.Move(from, to, isMerging);
     }
 
     public void SmoothAppear(Cell cell)
     {
-        Instantiate(animationPref, transform, false).Appear(cell);
+        CellAnimation CellAnimation = Instantiate(animationPref, transform, false);
+        CellAnimation.GetComponent<RectTransform>().sizeDelta = new Vector2(cell.GetComponent<RectTransform>().sizeDelta.x, cell.GetComponent<RectTransform>().sizeDelta.y);
+        CellAnimation.Appear(cell);
     }
 }
