@@ -30,21 +30,24 @@ public class GameController : MonoBehaviour
     {
         if(instance == null)
             instance = this;
+
+        LevelLoader.Level = 2;
+        LevelLoader.Difficulty = 2;
     }
 
     void Start()
     {
         save = Save.instance;
         swipeDetection = SwipeDetection.instance;
-        StartGame();
+        StartGame(LevelLoader.Level, LevelLoader.Difficulty);
         InstanceButton = GameObject.FindGameObjectsWithTag("ButtonManager")[0].gameObject.GetComponent<ButtonList>().ListButton[0].gameObject.GetComponent<StatusButton>();
     }
 
-    public void StartGame()
+    public void StartGame(int Level, int Difficulty)
     {
         gameResult.text = "";
         
-        Board.Instance.GenerateBoard();
+        Board.Instance.GenerateBoard(Level, Difficulty);
         GameStarted = true;
         if (!PlayerPrefs.HasKey("Score") && !PlayerPrefs.HasKey("SaveNowBoard")) {
             SetPoints(0);

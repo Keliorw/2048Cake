@@ -22,6 +22,9 @@ public class Board : MonoBehaviour
 
     private bool anyCellMoved;
 
+    [SerializeField]    
+    private LevelSettings[] levelSettings;
+
     private void Awake()
     {
         if(Instance == null)
@@ -196,16 +199,42 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void GenerateBoard()
+    public void GenerateBoard(int Level, int Difficulty)
     {
+        switch(Difficulty)
+        {
+            case 1:
+                BoardSize = 5;
+                CellSize = 150;
+                Spacing = 20;
+                break;
+            case 2:
+                BoardSize = 4;
+                CellSize = 190;
+                Spacing = 25;
+                break;
+            case 3:
+                BoardSize = 3;
+                CellSize = 230;
+                Spacing = 30;
+                break;
+        }
+
         if(board == null)
         {
             CreateBoard();
         }
 
         for(int x = 0; x < BoardSize; x++)
+        {
             for(int y = 0; y < BoardSize; y++)
+            {
                 board[x, y].SetValue(x, y, 0);
+                board[x, y].SetMaxValue(levelSettings[Level-1].WinScore);
+            }
+        }
+
+        ImageManager.Instance.CellSprite = levelSettings[Level-1].LevelImage;
 
         if (!PlayerPrefs.HasKey("Score") && !PlayerPrefs.HasKey("SaveNowBoard")) {
             for(int i = 0; i < InitCellCount; i++)

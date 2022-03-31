@@ -18,9 +18,5 @@ public class Fps : MonoBehaviour
     {
         fps = 1.0f / Time.deltaTime;
         FpsText.text = "FPS: " + ((int)fps).ToString();
-        if(fps <= 35)
-        {
-            Debug.Log(fps);
-        }
     }
 }
