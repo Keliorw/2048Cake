@@ -13,21 +13,23 @@ public class LevelsIDPrefabs : MonoBehaviour
     private GameObject[] levelIDArray;
     public GameObject levelIDPrefab;
     private LevelsScrolling levelsScrolling;
+    private ChooseLevelScript chooseLevelScript;
 
     private float startPosition;
     private void Start() {
         levelsScrolling = LevelsScrolling.instance;
+        chooseLevelScript = ChooseLevelScript.instance;
 
         contectRect = GetComponent<RectTransform>();
 
-        if (levelsScrolling.levelCount % 2==1) {
-                startPosition = -(levelsScrolling.levelCount/2)*(levelIDPrefab.GetComponent<RectTransform>().sizeDelta.x + levelIDPrefabOffset);
+        if (chooseLevelScript.levelsCount % 2==1) {
+                startPosition = -(chooseLevelScript.levelsCount/2)*(levelIDPrefab.GetComponent<RectTransform>().sizeDelta.x + levelIDPrefabOffset);
             } else {
-                startPosition = -(levelsScrolling.levelCount/2)*(levelIDPrefab.GetComponent<RectTransform>().sizeDelta.x + levelIDPrefabOffset) + (levelIDPrefab.GetComponent<RectTransform>().sizeDelta.x + levelIDPrefabOffset)/2;
+                startPosition = -(chooseLevelScript.levelsCount/2)*(levelIDPrefab.GetComponent<RectTransform>().sizeDelta.x + levelIDPrefabOffset) + (levelIDPrefab.GetComponent<RectTransform>().sizeDelta.x + levelIDPrefabOffset)/2;
             }
 
-        levelIDArray = new GameObject[levelsScrolling.levelCount];
-        for (int i = 0; i < levelsScrolling.levelCount; i++) {
+        levelIDArray = new GameObject[chooseLevelScript.levelsCount];
+        for (int i = 0; i < chooseLevelScript.levelsCount; i++) {
             levelIDArray[i] = Instantiate(levelIDPrefab, transform, false);
             levelIDArray[0].transform.localPosition = new Vector2(startPosition,levelIDArray[i].transform.localPosition.y);
             if (i == 0) continue;
@@ -36,9 +38,9 @@ public class LevelsIDPrefabs : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        for (int i = 0; i < levelsScrolling.levelCount; i++) {
+        for (int i = 0; i < chooseLevelScript.levelsCount; i++) {
             levelIDArray[i].GetComponent<Image>().sprite = DotUnactive;
         }
-        levelIDArray[levelsScrolling.selectedLevelID].GetComponent<Image>().sprite = DotActive;
+        levelIDArray[chooseLevelScript.selectedLevelID].GetComponent<Image>().sprite = DotActive;
     }
 }

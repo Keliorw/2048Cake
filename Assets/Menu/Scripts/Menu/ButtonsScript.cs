@@ -7,6 +7,7 @@ public class ButtonsScript : MonoBehaviour
     public GameObject MenuPanel;
     public GameObject SettingsPanel;
     public GameObject ChooseBackgroundPanel;
+    public GameObject BackBackgroundImage;
     private void Start()
     {
         MenuPanel.SetActive(true);
@@ -20,6 +21,7 @@ public class ButtonsScript : MonoBehaviour
         ChooseBackgroundPanel.SetActive(false);
     }
     public void ChooseBackgroundPanelButton () {
+        BackBackgroundImage.SetActive(false);
         MenuPanel.SetActive(false);
         SettingsPanel.SetActive(false);
         ChooseBackgroundPanel.SetActive(true);
