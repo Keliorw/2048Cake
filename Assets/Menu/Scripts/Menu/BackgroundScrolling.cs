@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelsScrolling : MonoBehaviour
+public class BackgroundScrolling : MonoBehaviour
 {
     private Animator animator;
-    public static LevelsScrolling instance;
+    public static BackgroundScrolling instance;
     
     private void Awake() {
         instance = this;
