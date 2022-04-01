@@ -86,6 +86,8 @@ public class ChooseLevelScript : MonoBehaviour
         }
     }
     public void StartGame() {
+        LevelLoader.Level = selectedLevelID+1;
+        LevelLoader.Difficulty = 2;
         save.SaveGameSettings();
         SceneManager.LoadScene(1);
     }

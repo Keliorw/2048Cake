@@ -92,10 +92,10 @@ public class Save : MonoBehaviour
         }
     }
 
-    // private void OnApplicationQuit() {
-    //     SaveGameSettings();
-    //     if(SceneManager.GetActiveScene().name == "Game") {
-    //         SaveCurrentGame();
-    //     }
-    // }
+    private void OnApplicationQuit() {
+        SaveGameSettings();
+        if(SceneManager.GetActiveScene().name == "Game") {
+            SaveCurrentGame();
+        }
+    }
 }
