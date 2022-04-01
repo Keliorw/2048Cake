@@ -237,10 +237,16 @@ public class Board : MonoBehaviour
 
         ImageManager.Instance.CellSprite = levelSettings[LevelLoader.Level-1].LevelImage;
 
-        if (!PlayerPrefs.HasKey("Score") && !PlayerPrefs.HasKey("SaveNowBoard")) {
+        if (!PlayerPrefs.HasKey("Score") && !PlayerPrefs.HasKey("SaveNowBoard") && !PlayerPrefs.HasKey("LastLevelPlay")) 
+        {
             for(int i = 0; i < InitCellCount; i++)
                 GenerateRandomCell();
-        }   
+        }
+        else if(PlayerPrefs.GetInt("LastLevelPlay") != LevelLoader.Level)
+        {
+            for(int i = 0; i < InitCellCount; i++)
+                GenerateRandomCell();
+        }
     }
 
     private void GenerateRandomCell()

@@ -58,6 +58,8 @@ public class Save : MonoBehaviour
     }
 
     public void SaveCurrentGame () {
+        PlayerPrefs.SetInt("LastLevelPlay", LevelLoader.Level);
+
         score = gameController.GetPoints();
         PlayerPrefs.SetInt("Score", score);
 
@@ -76,19 +78,39 @@ public class Save : MonoBehaviour
     }
 
     public void LoadCurrentGame() {
-        if (PlayerPrefs.HasKey("Score") && PlayerPrefs.HasKey("SaveNowBoard")) {
-            score = PlayerPrefs.GetInt("Score");
+        if (PlayerPrefs.HasKey("Score") && PlayerPrefs.HasKey("SaveNowBoard") && PlayerPrefs.HasKey("LastLevelPlay")) 
+        {
+            if(PlayerPrefs.GetInt("LastLevelPlay") == LevelLoader.Level)
+            {
+                score = PlayerPrefs.GetInt("Score");
 
-            string[] loadedCellsNow = PlayerPrefs.GetString("SaveNowBoard").Split(",".ToCharArray());
-            for (int i = 0; i < loadedCellsNow.Length; i++)
+                string[] loadedCellsNow = PlayerPrefs.GetString("SaveNowBoard").Split(",".ToCharArray());
+                for (int i = 0; i < loadedCellsNow.Length; i++)
                 {
                     saveNowBoard.Add(int.Parse(loadedCellsNow[i]));
                 } 
-            string[] loadedCellsBack = PlayerPrefs.GetString("SaveBoardForBack").Split(",".ToCharArray());
-            for (int i = 0; i < loadedCellsBack.Length; i++)
+                
+                string[] loadedCellsBack = PlayerPrefs.GetString("SaveBoardForBack").Split(",".ToCharArray());
+                for (int i = 0; i < loadedCellsBack.Length; i++)
                 {
                     saveBoardForBack.Add(int.Parse(loadedCellsBack[i]));
                 }
+            }
+            else 
+            {
+                DeleteSaveLevel();
+            }
+        }
+    }
+
+    public void DeleteSaveLevel()
+    {
+        if(PlayerPrefs.HasKey("Score") && PlayerPrefs.HasKey("SaveNowBoard") && PlayerPrefs.HasKey("LastLevelPlay")) 
+        {
+            PlayerPrefs.DeleteKey("Score");
+            PlayerPrefs.DeleteKey("SaveNowBoard");
+            PlayerPrefs.DeleteKey("LastLevelPlay");
+            PlayerPrefs.DeleteKey("SaveBoardForBack");
         }
     }
 
