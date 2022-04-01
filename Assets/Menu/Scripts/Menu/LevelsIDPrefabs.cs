@@ -14,7 +14,6 @@ public class LevelsIDPrefabs : MonoBehaviour
     public GameObject levelIDPrefab;
     private ChooseLevelScript chooseLevelScript;
     private float startPosition;
-    public int idButton;
     private void Start() {
         chooseLevelScript = ChooseLevelScript.instance;
 
@@ -29,12 +28,9 @@ public class LevelsIDPrefabs : MonoBehaviour
         levelIDArray = new GameObject[chooseLevelScript.levelsCount];
         for (int i = 0; i < chooseLevelScript.levelsCount; i++) {
             levelIDArray[i] = Instantiate(levelIDPrefab, transform, false);
+            levelIDArray[i].gameObject.name = i.ToString();
             levelIDArray[0].transform.localPosition = new Vector2(startPosition,levelIDArray[i].transform.localPosition.y);
-            if (i == 0) {
-                idButton = 0;
-                continue;
-            }
-            idButton++;
+            if (i == 0) continue;
             levelIDArray[i].transform.localPosition = new Vector2(levelIDArray[i-1].transform.localPosition.x + levelIDPrefab.GetComponent<RectTransform>().sizeDelta.x + levelIDPrefabOffset, levelIDArray[i].transform.localPosition.y);
         }
     }

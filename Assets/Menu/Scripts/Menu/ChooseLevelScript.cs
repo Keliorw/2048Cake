@@ -21,7 +21,6 @@ public class ChooseLevelScript : MonoBehaviour
     private Sprite[] LevelsLockedSprites;
     private Animator CurrentLevelAnimator;
     private Animator BackLevelAnimator;
-    
     private void Awake() {
         instance = this;
     }
@@ -69,7 +68,7 @@ public class ChooseLevelScript : MonoBehaviour
         }
     }
 
-    public void ScrollByButtonID (int id) {
+    public void ScrollByButtonsID (int id) {
         if (id > selectedLevelID) {
             selectedLevelID = id;
             RightArrow.interactable = false;

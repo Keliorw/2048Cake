@@ -36,7 +36,7 @@ public class MusicScript : MonoBehaviour
         audioSource.Play();
     }
 
-    private void FixedUpdate() {
+    private void Update() {
         audioSource.volume = musicVolume;
         CheckAudioClipLength();
     }
@@ -50,7 +50,9 @@ public class MusicScript : MonoBehaviour
             musicVolume = 1f;
             musicSlider.value = musicVolume;
             musicButton.GetComponent<Image>().sprite = musicOn;
-            audioSource.Play();
+            if(!audioSource.isPlaying) {
+                audioSource.Play();
+            }
         }
         save.musicVolume = musicVolume;
     }
@@ -63,7 +65,9 @@ public class MusicScript : MonoBehaviour
             audioSource.Pause();
         } else {
             musicButton.GetComponent<Image>().sprite = musicOn;
-            audioSource.Play();
+            if(!audioSource.isPlaying) {
+                audioSource.Play();
+            }
         }
     }
 
