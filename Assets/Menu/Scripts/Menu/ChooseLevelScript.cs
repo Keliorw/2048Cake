@@ -21,6 +21,7 @@ public class ChooseLevelScript : MonoBehaviour
     private Sprite[] LevelsLockedSprites;
     private Animator CurrentLevelAnimator;
     private Animator BackLevelAnimator;
+    
     private void Awake() {
         instance = this;
     }
