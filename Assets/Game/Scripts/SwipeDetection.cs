@@ -22,6 +22,9 @@ public class SwipeDetection : MonoBehaviour
     public List<int> SaveNowBoard;
     private int SaveScore;
     private StatusButton InstanceButton;
+
+    [SerializeField]
+    private GameObject GameBoard;
     
     private void Awake() {
         if(instance == null)
@@ -63,7 +66,8 @@ public class SwipeDetection : MonoBehaviour
                 }
             }
         }
-        CheckSwipe();
+        if(isSwiping)
+            CheckSwipe();
     }
 
     private void CheckSwipe()
@@ -104,7 +108,6 @@ public class SwipeDetection : MonoBehaviour
 
     public List<int> SaveBoard(bool back = false)
     {
-        GameObject GameBoard = GameObject.FindGameObjectsWithTag("GameBoard")[0].gameObject;
         SaveScore = GameController.instance.GetPoints();
         if(back == true)
         {

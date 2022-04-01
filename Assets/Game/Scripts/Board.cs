@@ -21,9 +21,8 @@ public class Board : MonoBehaviour
     private Cell[,] board;
 
     private bool anyCellMoved;
-
-    [SerializeField]    
-    private LevelSettings[] levelSettings;
+ 
+    public LevelSettings[] levelSettings;
 
     private void Awake()
     {
@@ -34,21 +33,6 @@ public class Board : MonoBehaviour
     private void Start()
     {
         SwipeDetection.SwipeEvent += OnInput;
-    }
-
-    private void Update()
-    {
-#if UNITY_EDITOR
-        if(Input.GetKeyDown(KeyCode.A))
-            OnInput(Vector2.left);
-        if(Input.GetKeyDown(KeyCode.D))
-            OnInput(Vector2.right);
-        if(Input.GetKeyDown(KeyCode.S))
-            OnInput(Vector2.down);
-        if(Input.GetKeyDown(KeyCode.W))
-            OnInput(Vector2.up);
-        
-#endif
     }
 
     private void OnInput(Vector2 direction)
@@ -199,9 +183,18 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void GenerateBoard(int Level, int Difficulty)
+    private void ClearBoard()
     {
-        switch(Difficulty)
+        for(int i = this.transform.childCount-1; i >= 0; i--)
+        {
+            Destroy(this.transform.GetChild(i).gameObject);
+        }
+    }
+
+    public void GenerateBoard(bool NextLevel = false)
+    {
+         
+        switch(LevelLoader.Difficulty)
         {
             case 1:
                 BoardSize = 5;
@@ -220,8 +213,15 @@ public class Board : MonoBehaviour
                 break;
         }
 
+        
         if(board == null)
         {
+            CreateBoard();
+        } 
+        else if(NextLevel == true)
+        {
+            board = null;
+            ClearBoard();
             CreateBoard();
         }
 
@@ -230,11 +230,11 @@ public class Board : MonoBehaviour
             for(int y = 0; y < BoardSize; y++)
             {
                 board[x, y].SetValue(x, y, 0);
-                board[x, y].SetMaxValue(levelSettings[Level-1].WinScore);
+                board[x, y].SetMaxValue(levelSettings[LevelLoader.Level-1].WinScore);
             }
         }
 
-        ImageManager.Instance.CellSprite = levelSettings[Level-1].LevelImage;
+        ImageManager.Instance.CellSprite = levelSettings[LevelLoader.Level-1].LevelImage;
 
         if (!PlayerPrefs.HasKey("Score") && !PlayerPrefs.HasKey("SaveNowBoard")) {
             for(int i = 0; i < InitCellCount; i++)

@@ -10,7 +10,7 @@ public class Fps : MonoBehaviour
     public Text FpsText;
     private void Awake() 
     {
-        Application.targetFrameRate = 60;
+        // Application.targetFrameRate = 60;
         QualitySettings.vSyncCount = 0;   
     }
 

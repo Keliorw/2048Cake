@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
@@ -14,7 +15,7 @@ public class GameController : MonoBehaviour
     public static bool GameStarted { get; private set; }
 
     [SerializeField]
-    private TextMeshProUGUI gameResult;
+    private GameObject gameResult;
     [SerializeField]
     private TextMeshProUGUI pointsText;
 
@@ -31,24 +32,41 @@ public class GameController : MonoBehaviour
         if(instance == null)
             instance = this;
 
-        LevelLoader.Level = 2;
-        LevelLoader.Difficulty = 2;
+        LevelLoader.Level = 1;
+        LevelLoader.Difficulty = 1;
     }
 
     void Start()
     {
         save = Save.instance;
         swipeDetection = SwipeDetection.instance;
-        StartGame(LevelLoader.Level, LevelLoader.Difficulty);
+        StartGame();
         InstanceButton = GameObject.FindGameObjectsWithTag("ButtonManager")[0].gameObject.GetComponent<ButtonList>().ListButton[0].gameObject.GetComponent<StatusButton>();
     }
 
-    public void StartGame(int Level, int Difficulty)
+    public void NextLevel()
     {
-        gameResult.text = "";
-        
-        Board.Instance.GenerateBoard(Level, Difficulty);
+        if(LevelLoader.Difficulty == 3)
+        {
+            LevelLoader.Level++;
+            LevelLoader.Difficulty = 1;
+        }
+        else 
+        {
+            LevelLoader.Difficulty++;
+        }
+        gameResult.SetActive(false);
+        StartGame(true);
+    }
+
+    public void StartGame(bool NextLevel = false)
+    {
+        if(gameResult.activeSelf == true)
+            gameResult.SetActive(false);
+
+        Board.Instance.GenerateBoard(NextLevel);
         GameStarted = true;
+
         if (!PlayerPrefs.HasKey("Score") && !PlayerPrefs.HasKey("SaveNowBoard")) {
             SetPoints(0);
         } else {
@@ -60,10 +78,26 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void CheckNextLevel(Button button)
+    {
+        if(LevelLoader.Level == Board.Instance.levelSettings.Length && LevelLoader.Difficulty == 3)
+        {
+            button.interactable = false;
+        }
+    }
+
+    private void DisableButtonOnLose(GameObject button)
+    {
+        button.GetComponent<Button>().interactable = false;
+        button.GetComponent<Image>().color = new Color32(100, 100, 100, 255);
+    }
+
     public void Win()
     {
         GameStarted = false;
-        gameResult.text = "You Win!";
+        gameResult.SetActive(true);
+        CheckNextLevel(gameResult.transform.GetChild(4).GetComponent<Button>());
+        gameResult.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "You Win!";
     }
 
     public void Lose()
@@ -71,7 +105,9 @@ public class GameController : MonoBehaviour
         InstanceButton.isActive = false;
         InstanceButton.UpdateStatus();
         GameStarted = false;
-        gameResult.text = "You Lose!";
+        gameResult.SetActive(true);
+        DisableButtonOnLose(gameResult.transform.GetChild(4).gameObject);
+        gameResult.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "You Lose!";
     }
 
     public int GetPoints()
