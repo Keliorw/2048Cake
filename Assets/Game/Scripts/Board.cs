@@ -193,7 +193,8 @@ public class Board : MonoBehaviour
 
     public void GenerateBoard(bool NextLevel = false)
     {
-         
+        Debug.Log("Level = "+LevelLoader.Level);
+        Debug.Log("Difficulty = "+LevelLoader.Difficulty);
         switch(LevelLoader.Difficulty)
         {
             case 1:

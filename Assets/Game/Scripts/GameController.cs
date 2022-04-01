@@ -32,8 +32,8 @@ public class GameController : MonoBehaviour
         if(instance == null)
             instance = this;
 
-        LevelLoader.Level = 1;
-        LevelLoader.Difficulty = 1;
+        // LevelLoader.Level = 1;
+        // LevelLoader.Difficulty = 1;
     }
 
     void Start()
