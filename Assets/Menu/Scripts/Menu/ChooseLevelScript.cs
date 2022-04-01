@@ -16,16 +16,16 @@ public class ChooseLevelScript : MonoBehaviour
     public Button RightArrow;
     public Button LeftArrow;
     private Save save;
-    private LevelsScrolling levelsScrolling;
     public int selectedLevelID;
     private Sprite[] LevelsUnlockedSprites;
     private Sprite[] LevelsLockedSprites;
+    private Animator CurrentLevelAnimator;
+    private Animator BackLevelAnimator;
     private void Awake() {
         instance = this;
     }
     private void Start() {
         save = Save.instance;
-        levelsScrolling = LevelsScrolling.instance;
         CurrentLevelSprite = CurrentLevel.GetComponent<Image>();
         BackLevelSprite = BackLevel.GetComponent<Image>();
         LevelsUnlockedSprites = Resources.LoadAll<Sprite>("sprites/levelsUnlocked") as Sprite[];
@@ -40,24 +40,53 @@ public class ChooseLevelScript : MonoBehaviour
             BackLevel.SetActive(true);
             CurrentLevelSprite.sprite = LevelsUnlockedSprites[selectedLevelID-1];
             BackLevelSprite.sprite = LevelsUnlockedSprites[selectedLevelID];
-            //TODO: Запустить анимацию через обьекты. Добавить 2 геймобджекта(2 торта и вызывать у них анимацию)
-            levelsScrolling.PlayAnimation(true);
+            PlayAnimation(true);
         } else if (rotation == false && selectedLevelID > 0) {
             selectedLevelID--;
             LeftArrow.interactable = false;
             BackLevel.SetActive(true);
-            //BackLevelSprite.sprite = save.backgrounds[selectedBackgroundID];
-            levelsScrolling.PlayAnimation(false);
+            CurrentLevelSprite.sprite = LevelsUnlockedSprites[selectedLevelID+1];
+            BackLevelSprite.sprite = LevelsUnlockedSprites[selectedLevelID];
+            PlayAnimation(false);
         }
     }
     public void ActiveButtons() {
         RightArrow.interactable = true;
         LeftArrow.interactable = true;
         BackLevel.SetActive(false);
-        //LevelСurrentSprite.sprite = save.backgrounds[selectedBackgroundID];
+        CurrentLevelSprite.sprite = LevelsUnlockedSprites[selectedLevelID];
+    }
+    public void PlayAnimation(bool side) {
+        CurrentLevelAnimator = CurrentLevel.GetComponent<Animator>();
+        BackLevelAnimator = BackLevel.GetComponent<Animator>();
+        if(side){
+            CurrentLevelAnimator.SetTrigger("PlayLeft");
+            BackLevelAnimator.SetTrigger("PlayRight");
+        } else if(!side) {
+            CurrentLevelAnimator.SetTrigger("PlayRight");
+            BackLevelAnimator.SetTrigger("PlayLeft");
+        }
     }
 
+    public void ScrollByButtonID (int id) {
+        if (id > selectedLevelID) {
+            selectedLevelID = id;
+            RightArrow.interactable = false;
+            BackLevel.SetActive(true);
+            CurrentLevelSprite.sprite = LevelsUnlockedSprites[selectedLevelID-1];
+            BackLevelSprite.sprite = LevelsUnlockedSprites[selectedLevelID];
+            PlayAnimation(true);
+        } else if (id < selectedLevelID) {
+            selectedLevelID = id;
+            LeftArrow.interactable = false;
+            BackLevel.SetActive(true);
+            CurrentLevelSprite.sprite = LevelsUnlockedSprites[selectedLevelID+1];
+            BackLevelSprite.sprite = LevelsUnlockedSprites[selectedLevelID];
+            PlayAnimation(false);
+        }
+    }
     public void StartGame() {
+        save.SaveGameSettings();
         SceneManager.LoadScene(1);
     }
 }

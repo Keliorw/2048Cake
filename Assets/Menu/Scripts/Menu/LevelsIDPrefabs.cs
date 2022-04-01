@@ -12,12 +12,10 @@ public class LevelsIDPrefabs : MonoBehaviour
     private RectTransform contectRect;
     private GameObject[] levelIDArray;
     public GameObject levelIDPrefab;
-    private LevelsScrolling levelsScrolling;
     private ChooseLevelScript chooseLevelScript;
-
     private float startPosition;
+    public int idButton;
     private void Start() {
-        levelsScrolling = LevelsScrolling.instance;
         chooseLevelScript = ChooseLevelScript.instance;
 
         contectRect = GetComponent<RectTransform>();
@@ -32,7 +30,11 @@ public class LevelsIDPrefabs : MonoBehaviour
         for (int i = 0; i < chooseLevelScript.levelsCount; i++) {
             levelIDArray[i] = Instantiate(levelIDPrefab, transform, false);
             levelIDArray[0].transform.localPosition = new Vector2(startPosition,levelIDArray[i].transform.localPosition.y);
-            if (i == 0) continue;
+            if (i == 0) {
+                idButton = 0;
+                continue;
+            }
+            idButton++;
             levelIDArray[i].transform.localPosition = new Vector2(levelIDArray[i-1].transform.localPosition.x + levelIDPrefab.GetComponent<RectTransform>().sizeDelta.x + levelIDPrefabOffset, levelIDArray[i].transform.localPosition.y);
         }
     }

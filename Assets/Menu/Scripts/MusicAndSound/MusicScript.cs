@@ -17,7 +17,7 @@ public class MusicScript : MonoBehaviour
 
     private int currentClip;
     private float currentClipLength;
-
+    public Slider musicSlider;
     private Save save;
     private void Start() {        
         save = Save.instance;
@@ -28,7 +28,7 @@ public class MusicScript : MonoBehaviour
         } else {
             musicButton.GetComponent<Image>().sprite = musicOff;
         }
-
+        musicSlider.value = musicVolume;
         music = Resources.LoadAll<AudioClip>("music") as AudioClip[];
 
         currentClip = Random.Range(0 , music.Length);
@@ -43,14 +43,28 @@ public class MusicScript : MonoBehaviour
     public void SetVolumeMusic () {
         if (musicVolume > 0f) {
             musicVolume = 0f;
+            musicSlider.value = musicVolume;
             musicButton.GetComponent<Image>().sprite = musicOff;
             audioSource.Pause();
         } else {
             musicVolume = 1f;
+            musicSlider.value = musicVolume;
             musicButton.GetComponent<Image>().sprite = musicOn;
             audioSource.Play();
         }
         save.musicVolume = musicVolume;
+    }
+
+    public void SetVolumeMusicBySlider (float vol) {
+        musicVolume = vol;
+        save.musicVolume = musicVolume;
+        if(vol <= 0f) {
+            musicButton.GetComponent<Image>().sprite = musicOff;
+            audioSource.Pause();
+        } else {
+            musicButton.GetComponent<Image>().sprite = musicOn;
+            audioSource.Play();
+        }
     }
 
     private void CheckAudioClipLength () {

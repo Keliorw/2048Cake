@@ -11,8 +11,8 @@ public class SoundScript : MonoBehaviour
     public GameObject soundButton;
 
     public float soundVolume;
-
-        private Save save;
+    public Slider soundSlider;
+    private Save save;
     private void Start() {
         save = Save.instance;
         audioSource = GetComponent<AudioSource>();
@@ -22,6 +22,7 @@ public class SoundScript : MonoBehaviour
         } else {
             soundButton.GetComponent<Image>().sprite = soundOff;
         }
+        soundSlider.value = soundVolume;
     }
 
     private void Update() {
@@ -34,11 +35,22 @@ public class SoundScript : MonoBehaviour
     public void SetVolumeSound () {
         if (soundVolume > 0f) {
             soundVolume = 0f;
+            soundSlider.value = soundVolume;
             soundButton.GetComponent<Image>().sprite = soundOff;
         } else {
             soundVolume = 1f;
+            soundSlider.value = soundVolume;
             soundButton.GetComponent<Image>().sprite = soundOn;
         }
         save.soundVolume = soundVolume;
+    }
+    public void SetVolumeSoundBySlider (float vol) {
+        soundVolume = vol;
+        save.soundVolume = soundVolume;
+        if(vol <= 0f) {
+            soundButton.GetComponent<Image>().sprite = soundOff;
+        } else {
+            soundButton.GetComponent<Image>().sprite = soundOn;
+        }
     }
 }
