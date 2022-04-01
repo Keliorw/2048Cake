@@ -18,7 +18,7 @@ public class Cell : MonoBehaviour
     public bool IsEmpty => Value == 0;
     public bool HasMerge { get; private set; }
 
-    public const int MaxValue = 11;
+    public static int MaxValue { get; private set; }
 
     [SerializeField]
     private Image image;
@@ -46,6 +46,11 @@ public class Cell : MonoBehaviour
         this.SizeX = SizeX;
         this.SizeY = SizeY;
         this.GetComponent<RectTransform>().sizeDelta = new Vector2(this.SizeX, this.SizeY);
+    }
+
+    public void SetMaxValue(int Value)
+    {
+        MaxValue = Value;
     }
 
     public void IncreaseValue()
@@ -79,12 +84,8 @@ public class Cell : MonoBehaviour
 
     public void UpdateCell()
     {
-        // points.text = IsEmpty ? string.Empty : Points.ToString();
-
-        // points.color = Value <= 2 ? ImageManager.Instance.PointsDarkColor : ImageManager.Instance.PointsLightColor;
-
         points.sprite = ImageManager.Instance.CellSprite[Value];
-        points.color = ImageManager.Instance.CellColors[Value];
+        points.color = Value == 0 ?  ImageManager.Instance.PointsDarkColor : ImageManager.Instance.PointsLightColor;
     }
 
     public void SetAnimation(CellAnimation animation)

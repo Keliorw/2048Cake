@@ -10,7 +10,7 @@ public class Fps : MonoBehaviour
     public Text FpsText;
     private void Awake() 
     {
-        Application.targetFrameRate = 60;
+        // Application.targetFrameRate = 60;
         QualitySettings.vSyncCount = 0;   
     }
 
@@ -18,9 +18,5 @@ public class Fps : MonoBehaviour
     {
         fps = 1.0f / Time.deltaTime;
         FpsText.text = "FPS: " + ((int)fps).ToString();
-        if(fps <= 35)
-        {
-            Debug.Log(fps);
-        }
     }
 }
