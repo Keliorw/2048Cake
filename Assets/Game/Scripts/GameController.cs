@@ -95,10 +95,15 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void DisableButtonOnLose(GameObject button)
+    private void DisableButtonOnLose(GameObject button, bool On)
     {
-        button.GetComponent<Button>().interactable = false;
-        button.GetComponent<Image>().color = new Color32(100, 100, 100, 255);
+        Color32 Color;
+        button.GetComponent<Button>().interactable = On;
+        if(On)
+            Color = new Color32(255, 255, 255, 255);
+        else
+            Color = new Color32(100, 100, 100, 255);
+        button.GetComponent<Image>().color = Color;
     }
 
     public void Win()
@@ -106,6 +111,7 @@ public class GameController : MonoBehaviour
         GameStarted = false;
         gameResult.SetActive(true);
         CheckNextLevel(gameResult.transform.GetChild(4).GetComponent<Button>());
+        DisableButtonOnLose(gameResult.transform.GetChild(4).gameObject, true);
         gameResult.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "You Win!";
     }
 
@@ -115,7 +121,7 @@ public class GameController : MonoBehaviour
         InstanceButton.UpdateStatus();
         GameStarted = false;
         gameResult.SetActive(true);
-        DisableButtonOnLose(gameResult.transform.GetChild(4).gameObject);
+        DisableButtonOnLose(gameResult.transform.GetChild(4).gameObject, false);
         gameResult.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "You Lose!";
     }
 
