@@ -56,6 +56,7 @@ public class GameController : MonoBehaviour
             LevelLoader.Difficulty++;
         }
         gameResult.SetActive(false);
+        save.DeleteSaveLevel();
         StartGame(true);
     }
 
@@ -67,14 +68,22 @@ public class GameController : MonoBehaviour
         Board.Instance.GenerateBoard(NextLevel);
         GameStarted = true;
 
-        if (!PlayerPrefs.HasKey("Score") && !PlayerPrefs.HasKey("SaveNowBoard")) {
+        if (!PlayerPrefs.HasKey("Score") && !PlayerPrefs.HasKey("SaveNowBoard") && !PlayerPrefs.HasKey("LastLevelPlay")) {
             SetPoints(0);
         } else {
-            save.LoadCurrentGame();
-            swipeDetection.SaveNowBoard = save.saveNowBoard;
-            swipeDetection.SaveBoardForBack = save.saveBoardForBack;
-            SetPoints(save.score);
-            swipeDetection.SetNowBoard();
+            if(NextLevel == false && PlayerPrefs.GetInt("LastLevelPlay") == LevelLoader.Level)
+            {
+                save.LoadCurrentGame();
+                swipeDetection.SaveNowBoard = save.saveNowBoard;
+                swipeDetection.SaveBoardForBack = save.saveBoardForBack;
+                SetPoints(save.score);
+                swipeDetection.SetNowBoard();
+            }
+            else 
+            {
+                SetPoints(0);
+            }
+            
         }
     }
 
@@ -135,9 +144,12 @@ public class GameController : MonoBehaviour
         
     }
 
-    public void BackMenu() {
+    public void BackMenu(bool Flag) {
         save.SaveGameSettings();
-        save.SaveCurrentGame();
+        if(Flag)
+            save.SaveCurrentGame();
+        else
+            save.DeleteSaveLevel();
         SceneManager.LoadScene(0);
     }
 }
