@@ -48,4 +48,20 @@ public class ChooseBackgroundScript : MonoBehaviour
         BackBackground.SetActive(false);
         ChooseBackgroundСurrentSprite.sprite = save.backgrounds[selectedBackgroundID];
     }
+
+    public void ScrollByButtonsID (int id) {
+        if (id > selectedBackgroundID) {
+            selectedBackgroundID = id;
+            RightArrow.interactable = false;
+            BackBackground.SetActive(true);
+            BackBackgroundSprite.sprite = save.backgrounds[selectedBackgroundID];
+            backgroundScrolling.PlayAnimation(true);
+        } else if (id < selectedBackgroundID) {
+            selectedBackgroundID = id;
+            LeftArrow.interactable = false;
+            BackBackground.SetActive(true);
+            BackBackgroundSprite.sprite = save.backgrounds[selectedBackgroundID];
+            backgroundScrolling.PlayAnimation(false);
+        }
+    }
 }
