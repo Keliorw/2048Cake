@@ -193,8 +193,6 @@ public class Board : MonoBehaviour
 
     public void GenerateBoard(bool NextLevel = false)
     {
-        Debug.Log("Level = "+LevelLoader.Level);
-        Debug.Log("Difficulty = "+LevelLoader.Difficulty);
         switch(LevelLoader.Difficulty)
         {
             case 1:
@@ -231,7 +229,7 @@ public class Board : MonoBehaviour
             for(int y = 0; y < BoardSize; y++)
             {
                 board[x, y].SetValue(x, y, 0);
-                board[x, y].SetMaxValue(levelSettings[LevelLoader.Level-1].WinScore-LevelLoader.Difficulty-1);
+                board[x, y].SetMaxValue(levelSettings[LevelLoader.Level-1].WinScore-(LevelLoader.Difficulty-1));
             }
         }
 
