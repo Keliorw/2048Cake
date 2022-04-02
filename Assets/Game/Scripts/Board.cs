@@ -231,7 +231,7 @@ public class Board : MonoBehaviour
             for(int y = 0; y < BoardSize; y++)
             {
                 board[x, y].SetValue(x, y, 0);
-                board[x, y].SetMaxValue(levelSettings[LevelLoader.Level-1].WinScore);
+                board[x, y].SetMaxValue(levelSettings[LevelLoader.Level-1].WinScore-LevelLoader.Difficulty-1);
             }
         }
 
