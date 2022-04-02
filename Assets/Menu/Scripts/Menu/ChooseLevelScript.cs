@@ -51,10 +51,10 @@ public class ChooseLevelScript : MonoBehaviour
         }
     }
     public void ActiveButtons() {
+        CurrentLevelSprite.sprite = LevelsUnlockedSprites[selectedLevelID];
+        BackLevel.SetActive(false);
         RightArrow.interactable = true;
         LeftArrow.interactable = true;
-        BackLevel.SetActive(false);
-        CurrentLevelSprite.sprite = LevelsUnlockedSprites[selectedLevelID];
     }
     public void PlayAnimation(bool side) {
         CurrentLevelAnimator = CurrentLevel.GetComponent<Animator>();

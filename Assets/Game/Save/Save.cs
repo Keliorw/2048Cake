@@ -7,6 +7,7 @@ public class Save : MonoBehaviour
     public static Save instance;
     private SwipeDetection swipeDetection;
     private GameController gameController;
+    private ChooseLevelScript chooseLevelScript;
     public int levelsPassed;
     public int[] playerBackgrounds;
     private string playerBackgroundsSave;
@@ -18,17 +19,20 @@ public class Save : MonoBehaviour
     public int currentBackground;
     public float soundVolume;
     public float musicVolume;
-
+    public int[] stars;
+    private string starsSave;
     public Sprite[] backgrounds;
      
     private void Start() {
         swipeDetection = SwipeDetection.instance;
         gameController = GameController.instance;
+        chooseLevelScript = ChooseLevelScript.instance;
     }
     private void Awake() {
         instance = this;
         backgrounds = Resources.LoadAll<Sprite>("backgrounds") as Sprite[];
         playerBackgrounds = new int[backgrounds.Length];
+        stars = new int[chooseLevelScript.levelsCount];
         LoadGameSetggins();
     }
 
@@ -39,7 +43,10 @@ public class Save : MonoBehaviour
          PlayerPrefs.SetFloat("MusicVolume", musicVolume);
          foreach (var backgrounds in playerBackgrounds) playerBackgroundsSave += backgrounds + ",";
          playerBackgroundsSave = playerBackgroundsSave.Remove(playerBackgroundsSave.Length-1);
+         foreach (var star in stars) starsSave += star + ",";
+         starsSave = starsSave.Remove(starsSave.Length-1);
          PlayerPrefs.SetString("PlayerBackgrounds", playerBackgroundsSave);
+         PlayerPrefs.SetString("Stars", starsSave);
          PlayerPrefs.Save();
     }
 
@@ -53,7 +60,11 @@ public class Save : MonoBehaviour
             for (int i = 0; i < backgrounds.Length; i++)
             {
                 playerBackgrounds[i] = int.Parse(loadedBackgrounds[i]);
-            } 
+            }
+            string[] loadStars = PlayerPrefs.GetString("Stars").Split(",".ToCharArray());
+            for (int i = 0; i < chooseLevelScript.levelsCount; i++) {
+                stars[i] = int.Parse(loadStars[i]);
+            }
         }
     }
 

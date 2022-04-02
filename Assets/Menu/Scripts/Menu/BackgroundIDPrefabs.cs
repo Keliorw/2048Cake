@@ -38,6 +38,7 @@ public class BackgroundIDPrefabs : MonoBehaviour
         backgroundIDPrefabPos = new Vector2[save.backgrounds.Length];
         for (int i = 0; i < save.backgrounds.Length; i++) {
             backgroundIDArray[i] = Instantiate(backgroundIDPrefab, transform, false);
+            backgroundIDArray[i].gameObject.name = i.ToString();
             backgroundIDArray[0].transform.localPosition = new Vector2(startPosition,backgroundIDArray[i].transform.localPosition.y);
             if (i == 0) continue;
             backgroundIDArray[i].transform.localPosition = new Vector2(backgroundIDArray[i-1].transform.localPosition.x + backgroundIDPrefab.GetComponent<RectTransform>().sizeDelta.x + backgroundIDPrefabOffset, backgroundIDArray[i].transform.localPosition.y);
