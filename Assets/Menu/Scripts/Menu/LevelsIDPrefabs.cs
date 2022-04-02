@@ -13,20 +13,22 @@ public class LevelsIDPrefabs : MonoBehaviour
     private GameObject[] levelIDArray;
     public GameObject levelIDPrefab;
     private ChooseLevelScript chooseLevelScript;
+    private Save save;
     private float startPosition;
     private void Start() {
         chooseLevelScript = ChooseLevelScript.instance;
+        save = Save.instance;
 
         contectRect = GetComponent<RectTransform>();
 
-        if (chooseLevelScript.levelsCount % 2==1) {
-                startPosition = -(chooseLevelScript.levelsCount/2)*(levelIDPrefab.GetComponent<RectTransform>().sizeDelta.x + levelIDPrefabOffset);
+        if (save.levelsCount % 2==1) {
+                startPosition = -(save.levelsCount/2)*(levelIDPrefab.GetComponent<RectTransform>().sizeDelta.x + levelIDPrefabOffset);
             } else {
-                startPosition = -(chooseLevelScript.levelsCount/2)*(levelIDPrefab.GetComponent<RectTransform>().sizeDelta.x + levelIDPrefabOffset) + (levelIDPrefab.GetComponent<RectTransform>().sizeDelta.x + levelIDPrefabOffset)/2;
+                startPosition = -(save.levelsCount/2)*(levelIDPrefab.GetComponent<RectTransform>().sizeDelta.x + levelIDPrefabOffset) + (levelIDPrefab.GetComponent<RectTransform>().sizeDelta.x + levelIDPrefabOffset)/2;
             }
 
-        levelIDArray = new GameObject[chooseLevelScript.levelsCount];
-        for (int i = 0; i < chooseLevelScript.levelsCount; i++) {
+        levelIDArray = new GameObject[save.levelsCount];
+        for (int i = 0; i < save.levelsCount; i++) {
             levelIDArray[i] = Instantiate(levelIDPrefab, transform, false);
             levelIDArray[i].gameObject.name = i.ToString();
             levelIDArray[0].transform.localPosition = new Vector2(startPosition,levelIDArray[i].transform.localPosition.y);
@@ -36,7 +38,7 @@ public class LevelsIDPrefabs : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        for (int i = 0; i < chooseLevelScript.levelsCount; i++) {
+        for (int i = 0; i < save.levelsCount; i++) {
             levelIDArray[i].GetComponent<Image>().sprite = DotUnactive;
         }
         levelIDArray[chooseLevelScript.selectedLevelID].GetComponent<Image>().sprite = DotActive;

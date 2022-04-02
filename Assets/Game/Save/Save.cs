@@ -7,7 +7,6 @@ public class Save : MonoBehaviour
     public static Save instance;
     private SwipeDetection swipeDetection;
     private GameController gameController;
-    private ChooseLevelScript chooseLevelScript;
     public int levelsPassed;
     public int[] playerBackgrounds;
     private string playerBackgroundsSave;
@@ -22,17 +21,17 @@ public class Save : MonoBehaviour
     public int[] stars;
     private string starsSave;
     public Sprite[] backgrounds;
+    public int levelsCount = 8;
      
     private void Start() {
         swipeDetection = SwipeDetection.instance;
         gameController = GameController.instance;
-        chooseLevelScript = ChooseLevelScript.instance;
     }
     private void Awake() {
         instance = this;
         backgrounds = Resources.LoadAll<Sprite>("backgrounds") as Sprite[];
         playerBackgrounds = new int[backgrounds.Length];
-        stars = new int[chooseLevelScript.levelsCount];
+        stars = new int[levelsCount];
         LoadGameSetggins();
     }
 
@@ -61,9 +60,20 @@ public class Save : MonoBehaviour
             {
                 playerBackgrounds[i] = int.Parse(loadedBackgrounds[i]);
             }
+        }
+        if(PlayerPrefs.HasKey("Stars")) {
             string[] loadStars = PlayerPrefs.GetString("Stars").Split(",".ToCharArray());
-            for (int i = 0; i < chooseLevelScript.levelsCount; i++) {
-                stars[i] = int.Parse(loadStars[i]);
+            if (levelsCount > loadStars.Length) {
+                for (int i = 0, j = 0; (i < levelsCount) && (j < loadStars.Length); i++, j++) {
+                    stars[i] = int.Parse(loadStars[j]);
+                    if (i > j) {
+                        stars[i] = 0;
+                    }
+                }
+            } else {
+                for (int i = 0; i < levelsCount; i++) {
+                    stars[i] = int.Parse(loadStars[i]);
+                }
             }
         }
     }

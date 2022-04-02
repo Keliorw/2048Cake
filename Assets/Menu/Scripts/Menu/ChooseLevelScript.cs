@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class ChooseLevelScript : MonoBehaviour
 {
-    [Range(0,30)]
-    public int levelsCount;
     public static ChooseLevelScript instance;
     public GameObject CurrentLevel;
     private Image CurrentLevelSprite;
@@ -34,7 +32,7 @@ public class ChooseLevelScript : MonoBehaviour
         BackLevel.SetActive(false);   
     }
     public void Scroll(bool rotation) {
-        if (rotation == true && selectedLevelID < levelsCount - 1) {
+        if (rotation == true && selectedLevelID < save.levelsCount - 1) {
             selectedLevelID++;
             RightArrow.interactable = false;
             BackLevel.SetActive(true);
@@ -87,7 +85,7 @@ public class ChooseLevelScript : MonoBehaviour
     }
     public void StartGame() {
         LevelLoader.Level = selectedLevelID+1;
-        LevelLoader.Difficulty = 1;
+        LevelLoader.Difficulty = (save.stars[selectedLevelID] + 1) == 4 ? save.stars[selectedLevelID] : (save.stars[selectedLevelID] + 1);
         save.SaveGameSettings();
         SceneManager.LoadScene(1);
     }
