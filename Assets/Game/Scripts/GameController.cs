@@ -113,6 +113,9 @@ public class GameController : MonoBehaviour
         CheckNextLevel(gameResult.transform.GetChild(4).GetComponent<Button>());
         DisableButtonOnLose(gameResult.transform.GetChild(4).gameObject, true);
         gameResult.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "You Win!";
+        if(LevelLoader.Difficulty == 1) {
+            save.levelsPassed++;
+        }
         save.SaveStars();
     }
 
