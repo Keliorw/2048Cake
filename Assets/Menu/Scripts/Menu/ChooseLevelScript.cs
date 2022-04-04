@@ -159,8 +159,8 @@ public class ChooseLevelScript : MonoBehaviour
         }
     }
     private void LockLevel(int id) {
-        if (id >= save.levelsPassed) {
-            if (previousSelectedLevelID < save.levelsPassed) {
+        if (id >= save.levelsPassed+1) {
+            if (previousSelectedLevelID < save.levelsPassed+1) {
                 CurrentLevel.GetComponent<Image>().color = new Color32(100,100,100,255);
                 BackLevel.GetComponent<Image>().color = new Color32(255,255,255,255);
                 CurrentLevelPlayButton.GetComponent<Button>().interactable = false;
@@ -184,7 +184,7 @@ public class ChooseLevelScript : MonoBehaviour
                 }
             }
         }  else {
-            if (previousSelectedLevelID >= save.levelsPassed) {
+            if (previousSelectedLevelID >= save.levelsPassed+1) {
                 CurrentLevel.GetComponent<Image>().color = new Color32(255,255,255,255);
                 BackLevel.GetComponent<Image>().color = new Color32(100,100,100,255);
                 CurrentLevelPlayButton.GetComponent<Button>().interactable = true;
