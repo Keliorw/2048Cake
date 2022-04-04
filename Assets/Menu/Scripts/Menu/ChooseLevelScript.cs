@@ -163,8 +163,8 @@ public class ChooseLevelScript : MonoBehaviour
             if (previousSelectedLevelID < save.levelsPassed) {
                 CurrentLevel.GetComponent<Image>().color = new Color32(100,100,100,255);
                 BackLevel.GetComponent<Image>().color = new Color32(255,255,255,255);
-                CurrentLevelSprite.color = new Color32(100,100,100,255);
-                BackLevelSprite.color = new Color32(255,255,255,255);
+                CurrentLevelPlayButton.GetComponent<Button>().interactable = false;
+                BackLevelPlayButton.GetComponent<Button>().interactable = true;
                 for (int i = 0; i < StarsSprite.Length; i++) {
                     StarsSprite[i].color = new Color32(100,100,100,255);
                 }
@@ -174,8 +174,8 @@ public class ChooseLevelScript : MonoBehaviour
             } else {
                 CurrentLevel.GetComponent<Image>().color = new Color32(100,100,100,255);
                 BackLevel.GetComponent<Image>().color = new Color32(100,100,100,255);
-                CurrentLevelSprite.color = new Color32(100,100,100,255);
-                BackLevelSprite.color = new Color32(100,100,100,255);
+                CurrentLevelPlayButton.GetComponent<Button>().interactable = false;
+                BackLevelPlayButton.GetComponent<Button>().interactable = false;
                 for (int i = 0; i < StarsSprite.Length; i++) {
                     StarsSprite[i].color = new Color32(100,100,100,255);
                 }
@@ -187,8 +187,8 @@ public class ChooseLevelScript : MonoBehaviour
             if (previousSelectedLevelID >= save.levelsPassed) {
                 CurrentLevel.GetComponent<Image>().color = new Color32(255,255,255,255);
                 BackLevel.GetComponent<Image>().color = new Color32(100,100,100,255);
-                CurrentLevelSprite.color = new Color32(255,255,255,255);
-                BackLevelSprite.color = new Color32(100,100,100,255);
+                CurrentLevelPlayButton.GetComponent<Button>().interactable = true;
+                BackLevelPlayButton.GetComponent<Button>().interactable = false;
                 for (int i = 0; i < StarsSprite.Length; i++) {
                     StarsSprite[i].color = new Color32(255,255,255,255);
                 }
@@ -198,8 +198,8 @@ public class ChooseLevelScript : MonoBehaviour
             } else {
                 CurrentLevel.GetComponent<Image>().color = new Color32(255,255,255,255);
                 BackLevel.GetComponent<Image>().color = new Color32(255,255,255,255);
-                CurrentLevelSprite.color = new Color32(255,255,255,255);
-                BackLevelSprite.color = new Color32(255,255,255,255);
+                CurrentLevelPlayButton.GetComponent<Button>().interactable = true;
+                BackLevelPlayButton.GetComponent<Button>().interactable = true;
                 for (int i = 0; i < StarsSprite.Length; i++) {
                     StarsSprite[i].color = new Color32(255,255,255,255);
                 }
