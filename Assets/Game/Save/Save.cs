@@ -36,17 +36,24 @@ public class Save : MonoBehaviour
     }
 
     public void SaveGameSettings() {
-         PlayerPrefs.SetInt("LevelsPassed", levelsPassed);
-         PlayerPrefs.SetInt("CurrentBackground", currentBackground);
-         PlayerPrefs.SetFloat("SoundVolume", soundVolume);
-         PlayerPrefs.SetFloat("MusicVolume", musicVolume);
-         foreach (var backgrounds in playerBackgrounds) playerBackgroundsSave += backgrounds + ",";
-         playerBackgroundsSave = playerBackgroundsSave.Remove(playerBackgroundsSave.Length-1);
-         foreach (var star in stars) starsSave += star + ",";
-         starsSave = starsSave.Remove(starsSave.Length-1);
-         PlayerPrefs.SetString("PlayerBackgrounds", playerBackgroundsSave);
-         PlayerPrefs.SetString("Stars", starsSave);
-         PlayerPrefs.Save();
+        PlayerPrefs.SetInt("LevelsPassed", levelsPassed);
+        PlayerPrefs.SetInt("CurrentBackground", currentBackground);
+        PlayerPrefs.SetFloat("SoundVolume", soundVolume);
+        PlayerPrefs.SetFloat("MusicVolume", musicVolume);
+        foreach (var backgrounds in playerBackgrounds) playerBackgroundsSave += backgrounds + ",";
+            playerBackgroundsSave = playerBackgroundsSave.Remove(playerBackgroundsSave.Length-1);
+        PlayerPrefs.SetString("PlayerBackgrounds", playerBackgroundsSave);
+        PlayerPrefs.Save();
+    }
+
+    public void SaveStars() {
+        if (stars[LevelLoader.Level-1] < LevelLoader.Difficulty) {
+            stars[LevelLoader.Level-1] = LevelLoader.Difficulty;
+            starsSave = "";
+            foreach (var star in stars) starsSave += star + ",";
+                starsSave = starsSave.Remove(starsSave.Length-1);
+            PlayerPrefs.SetString("Stars", starsSave);
+        }
     }
 
     public void LoadGameSetggins() {
