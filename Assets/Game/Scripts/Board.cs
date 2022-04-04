@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Board : MonoBehaviour
 {
@@ -22,7 +23,9 @@ public class Board : MonoBehaviour
 
     private bool anyCellMoved;
  
+    public Image TargetRound;
     public LevelSettings[] levelSettings;
+    
 
     private void Awake()
     {
@@ -193,8 +196,6 @@ public class Board : MonoBehaviour
 
     public void GenerateBoard(bool NextLevel = false)
     {
-        Debug.Log("Level = "+LevelLoader.Level);
-        Debug.Log("Difficulty = "+LevelLoader.Difficulty);
         switch(LevelLoader.Difficulty)
         {
             case 1:
@@ -226,16 +227,19 @@ public class Board : MonoBehaviour
             CreateBoard();
         }
 
+        int winScore = levelSettings[LevelLoader.Level-1].WinScore-(LevelLoader.Difficulty-1);
+
         for(int x = 0; x < BoardSize; x++)
         {
             for(int y = 0; y < BoardSize; y++)
             {
                 board[x, y].SetValue(x, y, 0);
-                board[x, y].SetMaxValue(levelSettings[LevelLoader.Level-1].WinScore-LevelLoader.Difficulty-1);
+                board[x, y].SetMaxValue(winScore);
             }
         }
 
         ImageManager.Instance.CellSprite = levelSettings[LevelLoader.Level-1].LevelImage;
+        TargetRound.sprite = levelSettings[LevelLoader.Level-1].LevelImage[winScore];
 
         if (!PlayerPrefs.HasKey("Score") && !PlayerPrefs.HasKey("SaveNowBoard") && !PlayerPrefs.HasKey("LastLevelPlay")) 
         {

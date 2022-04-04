@@ -9,6 +9,6 @@ public class AnimationResultWindow : MonoBehaviour
     private GameObject[] Stars;
     public void StarsAnimationStart()
     {
-        Debug.Log("Появляются звёздочки");
+        // Debug.Log("Появляются звёздочки");
     }
 }
