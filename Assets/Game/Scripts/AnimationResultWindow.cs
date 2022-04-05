@@ -25,7 +25,7 @@ public class AnimationResultWindow : MonoBehaviour
         {
             if(i < LevelLoader.Difficulty)
             {
-                Instantiate(ActiveStar, Stars[i].transform);
+                GameObject star = Instantiate(ActiveStar, Stars[i].transform);
             }
         }
     }
