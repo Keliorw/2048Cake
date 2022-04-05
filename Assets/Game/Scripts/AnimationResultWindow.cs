@@ -1,14 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AnimationResultWindow : MonoBehaviour
 {
     private Animator animator;
     [SerializeField]
     private GameObject[] Stars;
+
+    public GameObject ActiveStar;
+    public Sprite UnactiveStar;
+
+    public void SetDefaultStars()
+    {
+        for (int i = 0; i < Stars.Length; i++)
+        {
+            Stars[i].GetComponent<Image>().sprite = UnactiveStar;
+        }
+    }
     public void StarsAnimationStart()
     {
-        // Debug.Log("Появляются звёздочки");
+        for (int i = 0; i < Stars.Length; i++)
+        {
+            if(i < LevelLoader.Difficulty)
+            {
+                Instantiate(ActiveStar, Stars[i].transform);
+            }
+        }
     }
 }
