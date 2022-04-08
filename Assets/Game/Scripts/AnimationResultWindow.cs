@@ -19,14 +19,20 @@ public class AnimationResultWindow : MonoBehaviour
             Stars[i].GetComponent<Image>().sprite = UnactiveStar;
         }
     }
-    public void StarsAnimationStart()
+    public void StarsAnimationStart(int number)
     {
-        for (int i = 0; i < Stars.Length; i++)
+        if(number < LevelLoader.Difficulty && (Stars.Length) > number)
         {
-            if(i < LevelLoader.Difficulty)
-            {
-                GameObject star = Instantiate(ActiveStar, Stars[i].transform);
-            }
+            GameObject star = Instantiate(ActiveStar, Stars[number].transform);
+            ActiveStar Anim = star.GetComponent<ActiveStar>();
+            number++;
+            Anim.number = number;
+            Anim.MainAnimator = this;
+            
+        }
+        else
+        {
+            return;
         }
     }
 }
