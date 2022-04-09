@@ -109,6 +109,7 @@ public class GameController : MonoBehaviour
     public void Win()
     {
         GameStarted = false;
+        gameResult.GetComponent<AnimationResultWindow>().Win = true;
         gameResult.SetActive(true);
         CheckNextLevel(gameResult.transform.GetChild(4).GetComponent<Button>());
         DisableButtonOnLose(gameResult.transform.GetChild(4).gameObject, true);
@@ -124,6 +125,9 @@ public class GameController : MonoBehaviour
         InstanceButton.isActive = false;
         InstanceButton.UpdateStatus();
         GameStarted = false;
+        AnimationResultWindow StarsAnimation = gameResult.GetComponent<AnimationResultWindow>();
+        StarsAnimation.SetDefaultStars();
+        StarsAnimation.Win = false;
         gameResult.SetActive(true);
         DisableButtonOnLose(gameResult.transform.GetChild(4).gameObject, false);
         gameResult.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "You Lose!";

@@ -12,6 +12,8 @@ public class AnimationResultWindow : MonoBehaviour
     public GameObject ActiveStar;
     public Sprite UnactiveStar;
 
+    public bool Win;
+
     public void SetDefaultStars()
     {
         for (int i = 0; i < Stars.Length; i++)
@@ -21,7 +23,7 @@ public class AnimationResultWindow : MonoBehaviour
     }
     public void StarsAnimationStart(int number)
     {
-        if(number < LevelLoader.Difficulty && (Stars.Length) > number)
+        if(number < LevelLoader.Difficulty && (Stars.Length) > number && this.Win)
         {
             GameObject star = Instantiate(ActiveStar, Stars[number].transform);
             ActiveStar Anim = star.GetComponent<ActiveStar>();
