@@ -14,18 +14,20 @@ public class ChooseBackgroundScript : MonoBehaviour
     private Save save;
     private BackgroundScrolling backgroundScrolling;
     public int selectedBackgroundID;
-    
+    public GameObject ChooseButton;
     private void Awake() {
         instance = this;
     }
     private void Start() {
         save = Save.instance;
         backgroundScrolling = BackgroundScrolling.instance;
-        ChooseBackgroundСurrentSprite.sprite = save.backgrounds[selectedBackgroundID]; 
+        ChooseBackgroundСurrentSprite.sprite = save.backgrounds[selectedBackgroundID];
+        HideChooseButton(); 
     }
 
     public void ChooseBackground() {
         save.currentBackground = selectedBackgroundID;
+        HideChooseButton(); 
     }
     public void Scroll(bool rotation) {
         if (rotation == true && selectedBackgroundID < save.backgrounds.Length - 1) {
@@ -47,6 +49,7 @@ public class ChooseBackgroundScript : MonoBehaviour
         LeftArrow.interactable = true;
         BackBackground.SetActive(false);
         ChooseBackgroundСurrentSprite.sprite = save.backgrounds[selectedBackgroundID];
+        HideChooseButton(); 
     }
 
     public void ScrollByButtonsID (int id) {
@@ -64,4 +67,12 @@ public class ChooseBackgroundScript : MonoBehaviour
             backgroundScrolling.PlayAnimation(false);
         }
     }
-}
+    private void HideChooseButton () {
+        if (selectedBackgroundID == save.currentBackground) {
+            ChooseButton.SetActive(false);
+        } else {
+            ChooseButton.SetActive(true);
+        }
+    }
+
+ }

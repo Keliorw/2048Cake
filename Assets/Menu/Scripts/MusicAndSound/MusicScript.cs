@@ -16,7 +16,7 @@ public class MusicScript : MonoBehaviour
     private AudioClip[] music;
 
     private int currentClip;
-    private float currentClipLength;
+    public float currentClipLength;
     public Slider musicSlider;
     private Save save;
     private void Start() {        
@@ -74,7 +74,7 @@ public class MusicScript : MonoBehaviour
     private void CheckAudioClipLength () {
         if(audioSource.isPlaying) {
             currentClipLength = currentClipLength + Time.deltaTime;
-            if (currentClipLength >= audioSource.clip.length) {
+            if (currentClipLength >= (audioSource.clip.length - 3f)) {
             currentClip = Random.Range(0 , music.Length);
             audioSource.clip = music[currentClip];
             audioSource.Play();

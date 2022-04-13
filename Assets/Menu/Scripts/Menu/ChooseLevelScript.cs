@@ -44,10 +44,11 @@ public class ChooseLevelScript : MonoBehaviour
             }
         }
         previousSelectedLevelID = 0;
-        BackLevel.SetActive(false);  
+        BackLevel.SetActive(false);
+        CheckArrowSides();  
     }
     public void Scroll(bool rotation) {
-        if (rotation == true && selectedLevelID < save.levelsCount - 1) {
+        if (rotation == true && selectedLevelID < (save.levelsCount - 1)) {
             selectedLevelID++;
             RightArrow.interactable = false;
             BackLevel.SetActive(true);
@@ -96,8 +97,7 @@ public class ChooseLevelScript : MonoBehaviour
     public void ActiveButtons() {
         BackLevel.SetActive(false);
         CurrentLevelSprite.sprite = LevelsUnlockedSprites[selectedLevelID];
-        RightArrow.interactable = true;
-        LeftArrow.interactable = true;
+        CheckArrowSides();
     }
     public void PlayAnimation(bool side) {
         CurrentLevelAnimator = CurrentLevel.GetComponent<Animator>();
@@ -215,5 +215,17 @@ public class ChooseLevelScript : MonoBehaviour
         LevelLoader.Difficulty = (save.stars[selectedLevelID] + 1) == 4 ? save.stars[selectedLevelID] : (save.stars[selectedLevelID] + 1);
         save.SaveGameSettings();
         SceneManager.LoadScene(1);
+    }
+    private void CheckArrowSides() {
+        if (selectedLevelID == 0) {
+            RightArrow.interactable = true;
+            LeftArrow.interactable = false;
+        } else if (selectedLevelID == (save.levelsCount - 1)) {
+            RightArrow.interactable = false;
+            LeftArrow.interactable = true;
+        } else {
+            RightArrow.interactable = true;
+            LeftArrow.interactable = true;
+        }    
     }
 }
