@@ -27,6 +27,8 @@ public class ChooseBackgroundScript : MonoBehaviour
 
     public void ChooseBackground() {
         save.currentBackground = selectedBackgroundID;
+        LevelLoader.BackgroundImage = selectedBackgroundID;
+        save.SaveCurrentBackground();
         HideChooseButton(); 
     }
     public void Scroll(bool rotation) {
