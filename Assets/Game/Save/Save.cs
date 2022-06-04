@@ -35,6 +35,12 @@ public class Save : MonoBehaviour
         LoadGameSetggins();
     }
 
+    public void SaveCurrentBackground()
+    {
+        PlayerPrefs.SetInt("CurrentBackground", currentBackground);
+        PlayerPrefs.Save();
+    }
+
     public void SaveGameSettings() {
         PlayerPrefs.SetInt("LevelsPassed", levelsPassed);
         PlayerPrefs.SetInt("CurrentBackground", currentBackground);
@@ -60,6 +66,7 @@ public class Save : MonoBehaviour
         if (PlayerPrefs.HasKey("LevelsPassed") || PlayerPrefs.HasKey("PlayerBackgrounds") || PlayerPrefs.HasKey("CurrentBackground") || PlayerPrefs.HasKey("SoundVolume") || PlayerPrefs.HasKey("MusicVolume")) {
             levelsPassed = PlayerPrefs.GetInt("LevelsPassed");
             currentBackground = PlayerPrefs.GetInt("CurrentBackground");
+            LevelLoader.BackgroundImage = currentBackground;
             soundVolume = PlayerPrefs.GetFloat("SoundVolume");
             musicVolume = PlayerPrefs.GetFloat("MusicVolume");
             string[] loadedBackgrounds = PlayerPrefs.GetString("PlayerBackgrounds").Split(",".ToCharArray());
@@ -67,6 +74,10 @@ public class Save : MonoBehaviour
             {
                 playerBackgrounds[i] = int.Parse(loadedBackgrounds[i]);
             }
+        }
+        else 
+        {
+            LevelLoader.BackgroundImage = 0;
         }
         if(PlayerPrefs.HasKey("Stars")) {
             string[] loadStars = PlayerPrefs.GetString("Stars").Split(",".ToCharArray());

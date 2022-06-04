@@ -7,6 +7,8 @@ public class Board : MonoBehaviour
 {
     public static Board Instance;
 
+    private BackgroundManager backgroundManager;
+
     [Header("Переменные поля")]
     public float CellSize;
     public float Spacing;
@@ -35,6 +37,7 @@ public class Board : MonoBehaviour
 
     private void Start()
     {
+        backgroundManager = BackgroundManager.Instance;
         SwipeDetection.SwipeEvent += OnInput;
     }
 
@@ -72,7 +75,7 @@ public class Board : MonoBehaviour
                 var cellToMerge = FindCellToMerge(cell, direction);
                 if(cellToMerge != null)
                 {
-                    cell.MergeWithCell(cellToMerge);
+                    cell.MergeWithCell(cellToMerge, backgroundManager.CellImage[LevelLoader.BackgroundImage]);
                     anyCellMoved = true;
 
                     continue;
@@ -81,7 +84,7 @@ public class Board : MonoBehaviour
                 var emptyCell = FindEmptyCell(cell, direction);
                 if(emptyCell != null)
                 {
-                    cell.MoveToCell(emptyCell);
+                    cell.MoveToCell(emptyCell, backgroundManager.CellImage[LevelLoader.BackgroundImage]);
                     anyCellMoved = true;
                 }
             }
@@ -175,6 +178,7 @@ public class Board : MonoBehaviour
             for(int y = 0; y < BoardSize; y++)
             {
                 var cell = Instantiate(cellPref, transform, false);
+                cell.GetComponent<Image>().sprite = backgroundManager.CellImage[LevelLoader.BackgroundImage];
                 var position = new Vector2(startX + (x * (CellSize + Spacing)), startY - (y * (CellSize + Spacing)));
                 cell.transform.localPosition = position;
 
@@ -269,7 +273,7 @@ public class Board : MonoBehaviour
         var cell = emptyCells[Random.Range(0, emptyCells.Count)];
         cell.SetValue(cell.X, cell.Y, value, false);
 
-        CellAnimationController.Instance.SmoothAppear(cell);
+        CellAnimationController.Instance.SmoothAppear(cell, backgroundManager.CellImage[LevelLoader.BackgroundImage]);
     }
 
     private void ResetCellsFlags()
