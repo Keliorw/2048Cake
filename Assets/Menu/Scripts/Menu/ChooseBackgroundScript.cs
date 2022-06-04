@@ -15,6 +15,8 @@ public class ChooseBackgroundScript : MonoBehaviour
     private BackgroundScrolling backgroundScrolling;
     public int selectedBackgroundID;
     public GameObject ChooseButton;
+    public GameObject GoalToUnlockText;
+    private int[] neededStars = {10,16};
     private void Awake() {
         instance = this;
     }
@@ -22,7 +24,9 @@ public class ChooseBackgroundScript : MonoBehaviour
         save = Save.instance;
         backgroundScrolling = BackgroundScrolling.instance;
         ChooseBackgroundСurrentSprite.sprite = save.backgrounds[selectedBackgroundID];
-        HideChooseButton(); 
+        selectedBackgroundID = save.currentBackground;
+        HideChooseButton();
+        GoalToUnlockText.SetActive(false);
     }
 
     public void ChooseBackground() {
@@ -72,6 +76,25 @@ public class ChooseBackgroundScript : MonoBehaviour
             ChooseButton.SetActive(false);
         } else {
             ChooseButton.SetActive(true);
+        }
+        GoalToUnlock();
+    }
+    private void GoalToUnlock() {
+        if(save.playerBackgrounds[selectedBackgroundID] == 0 && selectedBackgroundID != 0) {
+            string starsCountToUnlock = "";
+            switch (selectedBackgroundID) {
+                case 1:
+                    starsCountToUnlock = "10";
+                    GoalToUnlockText.GetComponent<Text>().text = GoalToUnlockText.GetComponent<Text>().text.Replace("16", starsCountToUnlock);
+                    break;
+                case 2:
+                    starsCountToUnlock = "16";
+                    break;
+            }
+            
+            GoalToUnlockText.SetActive(true);
+        } else {
+            GoalToUnlockText.SetActive(false);
         }
     }
 
