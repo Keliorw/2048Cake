@@ -44,8 +44,12 @@ public class ChooseLevelScript : MonoBehaviour
             }
         }
         previousSelectedLevelID = 0;
+        OpenCurrentLevel();
+    }
+    public void OpenCurrentLevel() {
+        ScrollByButtonsID(save.levelsPassed);
         BackLevel.SetActive(false);
-        CheckArrowSides();  
+        CheckArrowSides(); 
     }
     public void Scroll(bool rotation) {
         if (rotation == true && selectedLevelID < (save.levelsCount - 1)) {

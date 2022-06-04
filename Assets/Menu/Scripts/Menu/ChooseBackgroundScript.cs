@@ -15,7 +15,8 @@ public class ChooseBackgroundScript : MonoBehaviour
     private BackgroundScrolling backgroundScrolling;
     public int selectedBackgroundID;
     public GameObject ChooseButton;
-    public GameObject GoalToUnlockText;
+    public GameObject CloseBackground;
+    public GameObject[] RequiredText;
     private int[] neededStars = {10,16};
     private void Awake() {
         instance = this;
@@ -23,17 +24,40 @@ public class ChooseBackgroundScript : MonoBehaviour
     private void Start() {
         save = Save.instance;
         backgroundScrolling = BackgroundScrolling.instance;
-        ChooseBackgroundСurrentSprite.sprite = save.backgrounds[selectedBackgroundID];
-        selectedBackgroundID = save.currentBackground;
-        HideChooseButton();
-        GoalToUnlockText.SetActive(false);
+        CloseBackground.SetActive(false);
+        for (int i = 0; i < RequiredText.Length; i++) {
+            RequiredText[i].SetActive(false);
+        }
     }
 
+    public void OpenCurrentBackground() {
+        selectedBackgroundID = save.currentBackground;
+        ChooseBackgroundСurrentSprite.sprite = save.backgrounds[selectedBackgroundID];
+        CheckArrowSides();
+        CloseBackgrounds();
+    }
+    
+    public void CloseBackgrounds() {
+        CloseBackground.SetActive(false);
+        for (int i = 0; i < RequiredText.Length; i++) {
+            RequiredText[i].SetActive(false);
+        }
+        if (selectedBackgroundID == save.currentBackground) {
+            ChooseButton.SetActive(false);
+        } else {
+            ChooseButton.SetActive(true);
+        }
+        if (save.playerBackgrounds[selectedBackgroundID] == 0) {
+            CloseBackground.SetActive(true);
+            RequiredText[selectedBackgroundID-1].SetActive(true);
+            ChooseButton.SetActive(false);
+        }
+    }
     public void ChooseBackground() {
         save.currentBackground = selectedBackgroundID;
         LevelLoader.BackgroundImage = selectedBackgroundID;
         save.SaveCurrentBackground();
-        HideChooseButton(); 
+        ChooseButton.SetActive(false);
     }
     public void Scroll(bool rotation) {
         if (rotation == true && selectedBackgroundID < save.backgrounds.Length - 1) {
@@ -49,13 +73,14 @@ public class ChooseBackgroundScript : MonoBehaviour
             BackBackgroundSprite.sprite = save.backgrounds[selectedBackgroundID];
             backgroundScrolling.PlayAnimation(false);
         }
+        CloseBackgrounds();
     }
     public void ActiveButtons() {
         RightArrow.interactable = true;
         LeftArrow.interactable = true;
         BackBackground.SetActive(false);
         ChooseBackgroundСurrentSprite.sprite = save.backgrounds[selectedBackgroundID];
-        HideChooseButton(); 
+        CheckArrowSides();
     }
 
     public void ScrollByButtonsID (int id) {
@@ -72,32 +97,19 @@ public class ChooseBackgroundScript : MonoBehaviour
             BackBackgroundSprite.sprite = save.backgrounds[selectedBackgroundID];
             backgroundScrolling.PlayAnimation(false);
         }
+        CloseBackgrounds();
     }
-    private void HideChooseButton () {
-        if (selectedBackgroundID == save.currentBackground) {
-            ChooseButton.SetActive(false);
+    private void CheckArrowSides() {
+        if (selectedBackgroundID == 0) {
+            RightArrow.interactable = true;
+            LeftArrow.interactable = false;
+        } else if (selectedBackgroundID == (save.backgrounds.Length - 1)) {
+            RightArrow.interactable = false;
+            LeftArrow.interactable = true;
         } else {
-            ChooseButton.SetActive(true);
-        }
-        GoalToUnlock();
-    }
-    private void GoalToUnlock() {
-        if(save.playerBackgrounds[selectedBackgroundID] == 0 && selectedBackgroundID != 0) {
-            string starsCountToUnlock = "";
-            switch (selectedBackgroundID) {
-                case 1:
-                    starsCountToUnlock = "10";
-                    GoalToUnlockText.GetComponent<Text>().text = GoalToUnlockText.GetComponent<Text>().text.Replace("16", starsCountToUnlock);
-                    break;
-                case 2:
-                    starsCountToUnlock = "16";
-                    break;
-            }
-            
-            GoalToUnlockText.SetActive(true);
-        } else {
-            GoalToUnlockText.SetActive(false);
-        }
+            RightArrow.interactable = true;
+            LeftArrow.interactable = true;
+        }    
     }
 
  }

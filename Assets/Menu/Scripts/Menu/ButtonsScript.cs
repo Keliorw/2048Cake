@@ -8,8 +8,12 @@ public class ButtonsScript : MonoBehaviour
     public GameObject SettingsPanel;
     public GameObject ChooseBackgroundPanel;
     public GameObject BackBackgroundImage;
+    private ChooseBackgroundScript chooseBackgroundScript;
+    private ChooseLevelScript chooseLevelScript;
     private void Start()
     {
+        chooseBackgroundScript = ChooseBackgroundScript.instance;
+        chooseLevelScript = ChooseLevelScript.instance;
         MenuPanel.SetActive(true);
         SettingsPanel.SetActive(false);
         ChooseBackgroundPanel.SetActive(false);
@@ -25,10 +29,12 @@ public class ButtonsScript : MonoBehaviour
         MenuPanel.SetActive(false);
         SettingsPanel.SetActive(false);
         ChooseBackgroundPanel.SetActive(true);
+        chooseBackgroundScript.OpenCurrentBackground();
     }
     public void BackMenuPanelButton () {
         MenuPanel.SetActive(true);
         SettingsPanel.SetActive(false);
         ChooseBackgroundPanel.SetActive(false);
+        chooseLevelScript.OpenCurrentLevel();
     }
 }

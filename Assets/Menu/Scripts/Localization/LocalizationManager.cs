@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class LocalizationManager : MonoBehaviour
 {
-    public Text GoalToUnlockText;
     private void Start() {
         string language = PlayerPrefs.GetString("Language");
         if (language == "" || language == "Eng") {
@@ -23,13 +22,11 @@ public class LocalizationManager : MonoBehaviour
     }
     public void LanguageRU () {
         string language = "Ru";
-        GoalToUnlockText.text = "Осталось набрать x звезд";
         PlayerPrefs.SetString("Language", language);
     }
 
     public void LanguageEng () {
         string language = "Eng";
-        GoalToUnlockText.text = "x stars left";
         PlayerPrefs.SetString("Language", language);
     }
 
