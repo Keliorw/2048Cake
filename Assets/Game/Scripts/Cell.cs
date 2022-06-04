@@ -66,17 +66,17 @@ public class Cell : MonoBehaviour
         HasMerge = false;
     }
 
-    public void MergeWithCell(Cell otherCell)
+    public void MergeWithCell(Cell otherCell, Sprite NowImageBlock)
     {
-        CellAnimationController.Instance.SmoothTransition(this, otherCell, true);
+        CellAnimationController.Instance.SmoothTransition(this, otherCell, true, NowImageBlock);
 
         otherCell.IncreaseValue();
         SetValue(X, Y, 0);
     }
 
-    public void MoveToCell(Cell target)
+    public void MoveToCell(Cell target, Sprite NowImageBlock)
     {
-        CellAnimationController.Instance.SmoothTransition(this, target, false);
+        CellAnimationController.Instance.SmoothTransition(this, target, false, NowImageBlock);
 
         target.SetValue(target.X, target.Y, Value, false);
         SetValue(X, Y, 0);

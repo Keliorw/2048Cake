@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BackgroundManager : MonoBehaviour
 {
+    public static BackgroundManager Instance;
+
     [Header("Объекты в которых надо менять Sprite")]
     [Space(5)]
     public GameObject Background;
@@ -31,4 +34,24 @@ public class BackgroundManager : MonoBehaviour
     [Header("Координаты где спавнить объекты")]
     [Space(5)]
     public CoordinateData[] PositionSpawnObject;
+
+    void Awake() 
+    {
+        if(Instance == null)
+            Instance = this;
+    }
+
+    void Start()
+    {
+        int NumberItem = LevelLoader.BackgroundImage;
+        Background.GetComponent<Image>().sprite = BackgroundsImage[NumberItem];
+        BoardBackground.GetComponent<Image>().color = BoardColor[NumberItem];
+
+        int numerator = 0;
+        while(numerator != SpawnObject[NumberItem].SpawnObjectListInLevel.Length)
+        {
+            SpawnObject[NumberItem].SpawnObjectListInLevel[numerator].localPosition = PositionSpawnObject[NumberItem].PositionObjects[numerator];
+            numerator++;
+        }
+    }
 }

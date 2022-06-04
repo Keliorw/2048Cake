@@ -94,7 +94,6 @@ public class Save : MonoBehaviour
                 }
             }
         }
-        Debug.Log(LevelLoader.BackgroundImage);
     }
 
     public void SaveCurrentGame () {

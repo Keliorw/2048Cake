@@ -5,5 +5,5 @@ using UnityEngine;
 [System.Serializable] 
 public class CoordinateData
 {
-    public GameObject[] PositionObjects;
+    public Vector3[] PositionObjects;
 }

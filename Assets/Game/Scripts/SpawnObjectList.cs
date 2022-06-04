@@ -5,5 +5,5 @@ using UnityEngine;
 [System.Serializable] 
 public class SpawnObjectList
 {
-    public GameObject[] SpawnObjectListInLevel;
+    public RectTransform[] SpawnObjectListInLevel;
 }
